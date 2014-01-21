@@ -238,6 +238,10 @@ class IRSDK:
     def is_connected(self):
         return self._header and self._header.status == StatusField.STATUS_CONNECTED
 
+    @property
+    def session_info_update(self):
+        return self._header.session_info_update
+
     def startup(self, test_file=None, dump_to=None):
         if test_file is None and not self._check_sim_status():
             return False
