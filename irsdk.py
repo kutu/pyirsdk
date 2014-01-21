@@ -214,12 +214,10 @@ class IRSDK:
 
         self._shared_mem = None
         self._header = None
-        self._last_session_num = 0
 
         self.__var_headers = None
         self.__var_headers_dict = None
         self.__session_info_dict = None
-        self.__session_info_names = None
         self.__broadcast_msg_id = None
 
     def __getitem__(self, key):
@@ -231,8 +229,8 @@ class IRSDK:
                 self._shared_mem,
                 var_buf_latest.buf_offset + var_header.offset)
             return res[0] if var_header.count == 1 else list(res)
-        elif key in self._session_info_names:
-            return self._get_session_info(key)
+
+        return self._get_session_info(key)
 
     @property
     def is_connected(self):
@@ -271,11 +269,9 @@ class IRSDK:
             self._shared_mem.close()
             self._shared_mem = None
         self._header = None
-        self._last_session_num = 0
         self.__var_headers = None
         self.__var_headers_dict = None
         self.__session_info_dict = None
-        self.__session_info_names = None
         self.__broadcast_msg_id = None
 
     def parse_to(self, to_file):
@@ -361,37 +357,34 @@ class IRSDK:
                 self.__var_headers_dict[var_header.name] = var_header
         return self.__var_headers_dict
 
-    @property
-    def _session_info_names(self):
-        if self.__session_info_names is None or self._last_session_num != self['SessionNum']:
-            self._last_session_num = self['SessionNum']
-            self.__session_info_names = list(self._get_session_info().keys())
-        return self.__session_info_names
-
     def _get_session_info(self, key=None):
         if self.last_session_info_update < self._header.session_info_update:
             self.last_session_info_update = self._header.session_info_update
             self.__session_info_dict = {}
 
-        if key is None and self.__session_info_dict and self.__session_info_dict.keys() != self.__session_info_names:
+        if key is None:
             self.__session_info_dict = {}
 
-        if not key in self.__session_info_dict:
+        if key not in self.__session_info_dict:
             start = self._header.session_info_offset
             end = self._header.session_info_len
-            if not key is None:
+
+            if key is not None:
                 self._shared_mem.seek(0)
                 start = self._shared_mem.find(('\n%s:\n' % key).encode('latin-1'), start, end)
                 end = self._shared_mem.find(b'\n\n', start, end)
-            yaml_src = self._shared_mem[start:end].rstrip(b'\x00').decode('latin-1')
-            result = yaml.load(yaml_src, Loader=YamlLoader)
-            for i in result:
-                self.__session_info_dict[i] = result[i]
+
+            if start != -1 and end != -1:
+                yaml_src = self._shared_mem[start:end].rstrip(b'\x00').decode('latin-1')
+                result = yaml.load(yaml_src, Loader=YamlLoader)
+                if result:
+                    self.__session_info_dict.update(result)
+            elif key is not None:
+                self.__session_info_dict[key] = None
 
         if key is None:
             return self.__session_info_dict
-        elif key in self.__session_info_dict:
-            return self.__session_info_dict[key]
+        return self.__session_info_dict.get(key)
 
     @property
     def _broadcast_msg_id(self):
