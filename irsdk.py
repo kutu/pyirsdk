@@ -214,6 +214,7 @@ class IRSDK:
 
         self._shared_mem = None
         self._header = None
+        self._last_session_num = 0
 
         self.__var_headers = None
         self.__var_headers_dict = None
@@ -266,6 +267,7 @@ class IRSDK:
             self._shared_mem.close()
             self._shared_mem = None
         self._header = None
+        self._last_session_num = 0
         self.__var_headers = None
         self.__var_headers_dict = None
         self.__session_info_dict = None
@@ -357,7 +359,8 @@ class IRSDK:
 
     @property
     def _session_info_names(self):
-        if self.__session_info_names is None:
+        if self.__session_info_names is None or self._last_session_num != self['SessionNum']:
+            self._last_session_num = self['SessionNum']
             self.__session_info_names = list(self._get_session_info().keys())
         return self.__session_info_names
 
