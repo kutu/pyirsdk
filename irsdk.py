@@ -1,5 +1,6 @@
 #!python3
 
+import re
 import argparse
 import mmap
 import struct
@@ -12,7 +13,11 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.0.2'
+# fix parsing CarNumber with leading zeros
+yaml.add_constructor('!car_number', lambda loader, node: loader.construct_scalar(node), YamlLoader)
+getattr(YamlLoader, 'yaml_implicit_resolvers')['0'].insert(0, ('!car_number', re.compile(r'^0\d+$')))
+
+VERSION = '1.0.3'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -418,3 +423,4 @@ def main():
 
 if __name__ == '__main__':
     main()
+
