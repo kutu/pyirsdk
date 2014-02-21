@@ -7,6 +7,7 @@ import struct
 import ctypes
 import yaml
 from urllib import request
+from yaml.reader import Reader as YamlReader
 
 try:
     from yaml.cyaml import CLoader as YamlLoader
@@ -17,7 +18,7 @@ except ImportError:
 yaml.add_constructor('!car_number', lambda loader, node: loader.construct_scalar(node), YamlLoader)
 getattr(YamlLoader, 'yaml_implicit_resolvers')['0'].insert(0, ('!car_number', re.compile(r'^0\d+$')))
 
-VERSION = '1.0.3'
+VERSION = '1.0.4'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -380,7 +381,7 @@ class IRSDK:
                 end = self._shared_mem.find(b'\n\n', start, end)
 
             if start != -1 and end != -1:
-                yaml_src = self._shared_mem[start:end].rstrip(b'\x00').decode('latin-1')
+                yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', self._shared_mem[start:end].rstrip(b'\x00').decode('latin-1'))
                 result = yaml.load(yaml_src, Loader=YamlLoader)
                 if result:
                     self.__session_info_dict.update(result)
