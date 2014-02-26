@@ -18,7 +18,7 @@ except ImportError:
 yaml.add_constructor('!car_number', lambda loader, node: loader.construct_scalar(node), YamlLoader)
 getattr(YamlLoader, 'yaml_implicit_resolvers')['0'].insert(0, ('!car_number', re.compile(r'^0\d+$')))
 
-VERSION = '1.0.4'
+VERSION = '1.0.5'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -294,10 +294,8 @@ class IRSDK:
     def cam_switch_pos(self, position=1, group=0, camera=0):
         return self._broadcast_msg(BroadcastMsg.CAM_SWITCH_POS, position, group, camera)
 
-    def cam_switch_num(self, driver_num="1", group=0, camera=0):
-        leading_zeros = len(driver_num) - len(driver_num.lstrip("0"))
-        driver_num = self._pad_car_num(int(driver_num), leading_zeros)
-        return self._broadcast_msg(BroadcastMsg.CAM_SWITCH_NUM, driver_num, group, camera)
+    def cam_switch_num(self, car_number=0, group=0, camera=0):
+        return self._broadcast_msg(BroadcastMsg.CAM_SWITCH_NUM, self._pad_car_num(car_number), group, camera)
 
     def cam_set_state(self, camera_state=CameraState.CAM_TOOL_ACTIVE):
         return self._broadcast_msg(BroadcastMsg.CAM_SET_STATE, camera_state)
@@ -402,10 +400,16 @@ class IRSDK:
         return ctypes.windll.user32.SendNotifyMessageW(0xFFFF, self._broadcast_msg_id,
             broadcast_type | var1 << 16, var2 | var3 << 16)
 
-    def _pad_car_num(self, num, zero):
-        if zero:
-            num_place = 3 if num > 99 else 2 if num > 9 else 1
-            return num + 1000 * (num_place + zero)
+    def _pad_car_num(self, num):
+        if isinstance(num, str):
+            num_len = len(num)
+            zero = num_len - len(num.lstrip("0"))
+            if zero > 0 and num_len == zero:
+                zero -= 1
+            num = int(num)
+            if zero:
+                num_place = 3 if num > 99 else 2 if num > 9 else 1
+                return num + 1000 * (num_place + zero)
         return num
 
 def main():
