@@ -13,11 +13,8 @@ Now, when you write your own scripts, for test purposes you can pass binary file
 
 ```python
 #!python3
-
 import irsdk
-
 ir = irsdk.IRSDK()
 ir.startup(test_file='data.bin')
-
 print(ir['Speed'])
 ```

@@ -25,6 +25,6 @@ setup(
         'console_scripts': ['irsdk = irsdk:main'],
     },
     install_requires=[
-        'PyYaml >= 3.10',
+        'PyYaml >= 3.11',
     ],
 )

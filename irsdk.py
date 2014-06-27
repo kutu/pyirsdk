@@ -18,7 +18,7 @@ except ImportError:
 yaml.add_constructor('!car_number', lambda loader, node: loader.construct_scalar(node), YamlLoader)
 getattr(YamlLoader, 'yaml_implicit_resolvers')['0'].insert(0, ('!car_number', re.compile(r'^0\d+$')))
 
-VERSION = '1.0.5'
+VERSION = '1.1.0'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -29,132 +29,138 @@ BROADCASTMSGNAME = 'IRSDK_BROADCASTMSG'
 VAR_TYPE_MAP = ['c', '?', 'i', 'I', 'f', 'd']
 
 class StatusField:
-    STATUS_CONNECTED = 1
+    status_connected = 1
 
 class EngineWarnings:
-    WATER_TEMP_WARNING    = 0x01
-    FUEL_PRESSURE_WARNING = 0x02
-    OIL_PRESSURE_WARNING  = 0x04
-    ENGINE_STALLED        = 0x08
-    PIT_SPEED_LIMITER     = 0x10
-    REV_LIMITER_ACTIVE    = 0x20
+    water_temp_warning    = 0x01
+    fuel_pressure_warning = 0x02
+    oil_pressure_warning  = 0x04
+    engine_stalled        = 0x08
+    pit_speed_limiter     = 0x10
+    rev_limiter_active    = 0x20
 
 class Flags:
     # global flags
-    CHECKERED        = 0x00000001
-    WHITE            = 0x00000002
-    GREEN            = 0x00000004
-    YELLOW           = 0x00000008
-    RED              = 0x00000010
-    BLUE             = 0x00000020
-    DEBRIS           = 0x00000040
-    CROSSED          = 0x00000080
-    YELLOW_WAVING    = 0x00000100
-    ONE_LAP_TO_GREEN = 0x00000200
-    GREEN_HELD       = 0x00000400
-    TEN_TO_GO        = 0x00000800
-    FIVE_TO_GO       = 0x00001000
-    RANDOM_WAVING    = 0x00002000
-    CAUTION          = 0x00004000
-    CAUTION_WAVING   = 0x00008000
+    checkered        = 0x00000001
+    white            = 0x00000002
+    green            = 0x00000004
+    yellow           = 0x00000008
+    red              = 0x00000010
+    blue             = 0x00000020
+    debris           = 0x00000040
+    crossed          = 0x00000080
+    yellow_waving    = 0x00000100
+    one_lap_to_green = 0x00000200
+    green_held       = 0x00000400
+    ten_to_go        = 0x00000800
+    five_to_go       = 0x00001000
+    random_waving    = 0x00002000
+    caution          = 0x00004000
+    caution_waving   = 0x00008000
 
     # drivers black flags
-    BLACK      = 0x00010000
-    DISQUALIFY = 0x00020000
-    SERVICIBLE = 0x00040000 # car is allowed service (not a flag)
-    FURLED     = 0x00080000
-    REPAIR     = 0x00100000
+    black      = 0x00010000
+    disqualify = 0x00020000
+    servicible = 0x00040000 # car is allowed service (not a flag)
+    furled     = 0x00080000
+    repair     = 0x00100000
 
     # start lights
-    START_HIDDEN = 0x10000000
-    START_READY  = 0x20000000
-    START_SET    = 0x40000000
-    START_GO     = 0x80000000
+    start_hidden = 0x10000000
+    start_ready  = 0x20000000
+    start_set    = 0x40000000
+    start_go     = 0x80000000
 
 class TrkLoc:
-    NOT_IN_WORLD    = -1
-    OFF_TRACK       = 0
-    IN_PIT_STALL    = 1
-    APROACHING_PITS = 2
-    ON_TRACK        = 3
+    not_in_world    = -1
+    off_track       = 0
+    in_pit_stall    = 1
+    aproaching_pits = 2
+    on_track        = 3
 
 class SessionState:
-    INVALID     = 0
-    GET_IN_CAR  = 1
-    WARMUP      = 2
-    PARADE_LAPS = 3
-    RACING      = 4
-    CHECKERED   = 5
-    COOL_DOWN   = 6
+    invalid     = 0
+    get_in_car  = 1
+    warmup      = 2
+    parade_laps = 3
+    racing      = 4
+    checkered   = 5
+    cool_down   = 6
 
 class CameraState:
-    IS_SESSION_SCREEN       = 0x0001 # the camera tool can only be activated if viewing the session screen (out of car)
-    IS_SCENIC_ACTIVE        = 0x0002 # the scenic camera is active (no focus car)
+    is_session_screen       = 0x0001 # the camera tool can only be activated if viewing the session screen (out of car)
+    is_scenic_active        = 0x0002 # the scenic camera is active (no focus car)
 
     # these can be changed with a broadcast message
-    CAM_TOOL_ACTIVE         = 0x0004
-    UI_HIDDEN               = 0x0008
-    USE_AUTO_SHOT_SELECTION = 0x0010
-    USE_TEMPORARY_EDITS     = 0x0020
-    USE_KEY_ACCELERATION    = 0x0040
-    USE_KEY10X_ACCELERATION = 0x0080
-    USE_MOUSE_AIM_MODE      = 0x0100
+    cam_tool_active         = 0x0004
+    ui_hidden               = 0x0008
+    use_auto_shot_selection = 0x0010
+    use_temporary_edits     = 0x0020
+    use_key_acceleration    = 0x0040
+    use_key10x_acceleration = 0x0080
+    use_mouse_aim_mode      = 0x0100
 
 class BroadcastMsg:
-    CAM_SWITCH_POS           = 0 # car position, group, camera
-    CAM_SWITCH_NUM           = 1 # driver #, group, camera
-    CAM_SET_STATE            = 2 # CameraState, unused, unused
-    REPLAY_SET_PLAY_SPEED    = 3 # speed, slowMotion, unused
-    REPLAY_SET_PLAY_POSITION = 4 # RpyPosMode, Frame Number (high, low)
-    REPLAY_SEARCH            = 5 # RpySrchMode, unused, unused
-    REPLAY_SET_STATE         = 6 # RpyStateMode, unused, unused
-    RELOAD_TEXTURES          = 7 # ReloadTexturesMode, carIdx, unused
-    CHAT_COMMAND             = 8 # ChatCommandMode, subCommand, unused
-    PIT_COMMAND              = 9 # PitCommandMode, parameter
+    cam_switch_pos           = 0 # car position, group, camera
+    cam_switch_num           = 1 # driver #, group, camera
+    cam_set_state            = 2 # CameraState, unused, unused
+    replay_set_play_speed    = 3 # speed, slowMotion, unused
+    replay_set_play_position = 4 # RpyPosMode, Frame Number (high, low)
+    replay_search            = 5 # RpySrchMode, unused, unused
+    replay_set_state         = 6 # RpyStateMode, unused, unused
+    reload_textures          = 7 # ReloadTexturesMode, carIdx, unused
+    chat_command             = 8 # ChatCommandMode, subCommand, unused
+    pit_command              = 9 # PitCommandMode, parameter
+    telem_command            = 10# irsdk_TelemCommandMode, unused, unused
 
 class ChatCommandMode:
-    MACRO      = 0 # pass in a number from 1-15 representing the chat macro to launch
-    BEGIN_CHAT = 1 # Open up a new chat window
-    REPLY      = 2 # Reply to last private chat
-    CANCEL     = 3 # Close chat window
+    macro      = 0 # pass in a number from 1-15 representing the chat macro to launch
+    begin_chat = 1 # Open up a new chat window
+    reply      = 2 # Reply to last private chat
+    cancel     = 3 # Close chat window
 
-class PitCommandMode:            # this only works when the driver is in the car
-    CLEAR = 0 # Clear all pit checkboxes
-    WS    = 1 # Clean the winshield, using one tear off
-    FUEL  = 2 # Add fuel, optionally specify the amount to add in liters or pass '0' to use existing amount
-    LF    = 3 # Change the left front tire, optionally specifying the pressure in KPa or pass '0' to use existing pressure
-    RF    = 4 # right front
-    LR    = 5 # left rear
-    RR    = 6 # right rear
+class PitCommandMode: # this only works when the driver is in the car
+    clear = 0 # Clear all pit checkboxes
+    ws    = 1 # Clean the winshield, using one tear off
+    fuel  = 2 # Add fuel, optionally specify the amount to add in liters or pass '0' to use existing amount
+    lf    = 3 # Change the left front tire, optionally specifying the pressure in KPa or pass '0' to use existing pressure
+    rf    = 4 # right front
+    lr    = 5 # left rear
+    rr    = 6 # right rear
+
+class TelemCommandMode: # You can call this any time, but telemtry only records when driver is in there car
+    stop    = 0 # Turn telemetry recording off
+    start   = 1 # Turn telemetry recording on
+    restart = 2 # Write current file to disk and start a new one
 
 class RpyStateMode:
-    ERASE_TAPE = 0 # clear any data in the replay tape
+    erase_tape = 0 # clear any data in the replay tape
 
 class ReloadTexturesMode:
-    ALL     = 0 # reload all textuers
-    CAR_IDX = 1 # reload only textures for the specific carIdx
+    all     = 0 # reload all textuers
+    car_idx = 1 # reload only textures for the specific carIdx
 
 class RpySrchMode:
-    TO_START      = 0
-    TO_END        = 1
-    PREV_SESSION  = 2
-    NEXT_SESSION  = 3
-    PREV_LAP      = 4
-    NEXT_LAP      = 5
-    PREV_FRAME    = 6
-    NEXT_FRAME    = 7
-    PREV_INCIDENT = 8
-    NEXT_INCIDENT = 9
+    to_start      = 0
+    to_end        = 1
+    prev_session  = 2
+    next_session  = 3
+    prev_lap      = 4
+    next_lap      = 5
+    prev_frame    = 6
+    next_frame    = 7
+    prev_incident = 8
+    next_incident = 9
 
 class RpyPosMode:
-    BEGIN   = 0
-    CURRENT = 1
-    END     = 2
+    begin   = 0
+    current = 1
+    end     = 2
 
 class csMode:
-    AT_INCIDENT = -3
-    AT_LEADER   = -2
-    AT_EXCITING = -1
+    at_incident = -3
+    at_leader   = -2
+    at_exciting = -1
 
 
 
@@ -223,6 +229,7 @@ class IRSDK:
 
         self.__var_headers = None
         self.__var_headers_dict = None
+        self.__var_headers_names = None
         self.__session_info_dict = None
         self.__broadcast_msg_id = None
 
@@ -240,11 +247,17 @@ class IRSDK:
 
     @property
     def is_connected(self):
-        return self._header and self._header.status == StatusField.STATUS_CONNECTED
+        return self._header and self._header.status == StatusField.status_connected
 
     @property
     def session_info_update(self):
         return self._header.session_info_update
+
+    @property
+    def var_headers_names(self):
+        if self.__var_headers_names is None:
+            self.__var_headers_names = [var_header.name for var_header in self._var_headers]
+        return self.__var_headers_names
 
     def startup(self, test_file=None, dump_to=None):
         if test_file is None and not self._check_sim_status():
@@ -277,6 +290,7 @@ class IRSDK:
         self._header = None
         self.__var_headers = None
         self.__var_headers_dict = None
+        self.__var_headers_names = None
         self.__session_info_dict = None
         self.__broadcast_msg_id = None
 
@@ -291,41 +305,44 @@ class IRSDK:
         ]))
         f.close()
 
-    def cam_switch_pos(self, position=1, group=0, camera=0):
-        return self._broadcast_msg(BroadcastMsg.CAM_SWITCH_POS, position, group, camera)
+    def cam_switch_pos(self, position=0, group=1, camera=0):
+        return self._broadcast_msg(BroadcastMsg.cam_switch_pos, position, group, camera)
 
-    def cam_switch_num(self, car_number=0, group=0, camera=0):
-        return self._broadcast_msg(BroadcastMsg.CAM_SWITCH_NUM, self._pad_car_num(car_number), group, camera)
+    def cam_switch_num(self, car_number=0, group=1, camera=0):
+        return self._broadcast_msg(BroadcastMsg.cam_switch_num, self._pad_car_num(car_number), group, camera)
 
-    def cam_set_state(self, camera_state=CameraState.CAM_TOOL_ACTIVE):
-        return self._broadcast_msg(BroadcastMsg.CAM_SET_STATE, camera_state)
+    def cam_set_state(self, camera_state=CameraState.cam_tool_active):
+        return self._broadcast_msg(BroadcastMsg.cam_set_state, camera_state)
 
     def replay_set_play_speed(self, speed=0, slow_motion=False):
-        return self._broadcast_msg(BroadcastMsg.REPLAY_SET_PLAY_SPEED, speed, 1 if slow_motion else 0)
+        return self._broadcast_msg(BroadcastMsg.replay_set_play_speed, speed, 1 if slow_motion else 0)
 
-    def replay_set_play_position(self, pos_mode=RpyPosMode.BEGIN, frame_num=0):
-        return self._broadcast_msg(BroadcastMsg.REPLAY_SET_PLAY_POSITION, pos_mode, frame_num)
+    def replay_set_play_position(self, pos_mode=RpyPosMode.begin, frame_num=0):
+        return self._broadcast_msg(BroadcastMsg.replay_set_play_position, pos_mode, frame_num)
 
-    def replay_search(self, search_mode=RpySrchMode.TO_START):
-        return self._broadcast_msg(BroadcastMsg.REPLAY_SEARCH, search_mode)
+    def replay_search(self, search_mode=RpySrchMode.to_start):
+        return self._broadcast_msg(BroadcastMsg.replay_search, search_mode)
 
-    def replay_set_state(self, state_mode=RpyStateMode.ERASE_TAPE):
-        return self._broadcast_msg(BroadcastMsg.REPLAY_SET_STATE, state_mode)
+    def replay_set_state(self, state_mode=RpyStateMode.erase_tape):
+        return self._broadcast_msg(BroadcastMsg.replay_set_state, state_mode)
 
     def reload_all_textures(self):
-        return self._broadcast_msg(BroadcastMsg.RELOAD_TEXTURES, ReloadTexturesMode.ALL)
+        return self._broadcast_msg(BroadcastMsg.reload_textures, ReloadTexturesMode.all)
 
     def reload_texture(self, car_idx=0):
-        return self._broadcast_msg(BroadcastMsg.RELOAD_TEXTURES, ReloadTexturesMode.CAR_IDX, car_idx)
+        return self._broadcast_msg(BroadcastMsg.reload_textures, ReloadTexturesMode.car_idx, car_idx)
 
-    def chat_command(self, chat_command_mode=ChatCommandMode.BEGIN_CHAT):
-        return self._broadcast_msg(BroadcastMsg.CHAT_COMMAND, chat_command_mode)
+    def chat_command(self, chat_command_mode=ChatCommandMode.begin_chat):
+        return self._broadcast_msg(BroadcastMsg.chat_command, chat_command_mode)
 
-    def chat_command_macro(self, macro_num=1):
-        return self._broadcast_msg(BroadcastMsg.CHAT_COMMAND, ChatCommandMode.MACRO, macro_num)
+    def chat_command_macro(self, macro_num=0):
+        return self._broadcast_msg(BroadcastMsg.chat_command, ChatCommandMode.macro, macro_num)
 
-    def pit_command(self, pit_command_mode=PitCommandMode.CLEAR, var=0):
-        return self._broadcast_msg(BroadcastMsg.PIT_COMMAND, pit_command_mode, var)
+    def pit_command(self, pit_command_mode=PitCommandMode.clear, var=0):
+        return self._broadcast_msg(BroadcastMsg.pit_command, pit_command_mode, var)
+
+    def telem_command(self, telem_command_mode=TelemCommandMode.stop):
+        return self._broadcast_msg(BroadcastMsg.telem_command, telem_command_mode)
 
     def _check_sim_status(self):
         return 'running:1' in request.urlopen(SIM_STATUS_URL).read().decode('utf-8')
@@ -380,6 +397,8 @@ class IRSDK:
 
             if start != -1 and end != -1:
                 yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', self._shared_mem[start:end].rstrip(b'\x00').decode('latin-1'))
+                # fix double-quoted
+                yaml_src = re.sub('\"', '\'', yaml_src)
                 result = yaml.load(yaml_src, Loader=YamlLoader)
                 if result:
                     self.__session_info_dict.update(result)
@@ -411,6 +430,94 @@ class IRSDK:
                 num_place = 3 if num > 99 else 2 if num > 9 else 1
                 return num + 1000 * (num_place + zero)
         return num
+
+class IBT:
+    def __init__(self):
+        self.buffers_length = 0
+
+        self._ibt_file = None
+        self._shared_mem = None
+        self._header = None
+
+        self.__var_headers = None
+        self.__var_headers_dict = None
+        self.__var_headers_names = None
+        self.__session_info_dict = None
+
+    def __getitem__(self, key):
+        return self.get(self.buffers_length - 1, key)
+
+    @property
+    def file_name(self):
+        return self._ibt_file and self._ibt_file.name
+
+    @property
+    def var_headers_names(self):
+        if not self._header:
+            return None
+        if self.__var_headers_names is None:
+            self.__var_headers_names = [var_header.name for var_header in self._var_headers]
+        return self.__var_headers_names
+
+    def open(self, ibt_file):
+        self._ibt_file = open(ibt_file, 'rb')
+        self._shared_mem = mmap.mmap(self._ibt_file.fileno(), 0, access=mmap.ACCESS_READ)
+        self._header = Header(self._shared_mem)
+        self.buffers_length = int((self._shared_mem.size() - self._header.var_buf[0].buf_offset) / self._header.buf_len)
+
+    def close(self):
+        if self._shared_mem:
+            self._shared_mem.close()
+
+        if self._ibt_file:
+            self._ibt_file.close()
+
+        self.buffers_length = 0
+
+        self._ibt_file = None
+        self._shared_mem = None
+        self._header = None
+
+        self.__var_headers = None
+        self.__var_headers_dict = None
+        self.__var_headers_names = None
+        self.__session_info_dict = None
+
+    def get(self, index, key):
+        if not self._header:
+            return None
+        if index >= self.buffers_length:
+            return None
+        if key in self._var_headers_dict:
+            var_header = self._var_headers_dict[key]
+            var_buf_offset = self._header.var_buf[0].buf_offset + index * self._header.buf_len
+            res = struct.unpack_from(
+                VAR_TYPE_MAP[var_header.type] * var_header.count,
+                self._shared_mem,
+                var_buf_offset + var_header.offset)
+            return res[0] if var_header.count == 1 else list(res)
+        return None
+
+    @property
+    def _var_headers(self):
+        if not self._header:
+            return None
+        if self.__var_headers is None:
+            self.__var_headers = []
+            for i in range(self._header.num_vars):
+                var_header = VarHeader(self._shared_mem, self._header.var_header_offset + i * 144)
+                self._var_headers.append(var_header)
+        return self.__var_headers
+
+    @property
+    def _var_headers_dict(self):
+        if not self._header:
+            return None
+        if self.__var_headers_dict is None:
+            self.__var_headers_dict = {}
+            for var_header in self._var_headers:
+                self.__var_headers_dict[var_header.name] = var_header
+        return self.__var_headers_dict
 
 def main():
     parser = argparse.ArgumentParser()
