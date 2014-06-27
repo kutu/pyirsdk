@@ -9,9 +9,9 @@ Python 3 implementation of iRacing SDK can:
 # Install
 
 - [Python 3.3+](http://www.python.org/download/)
-- [setuptools 2.0.2+](http://www.lfd.uci.edu/~gohlke/pythonlibs/#setuptools) _(no need for Python 3.4+)_
+- [setuptools 3.8.1+](http://www.lfd.uci.edu/~gohlke/pythonlibs/#setuptools) _(no need for Python 3.4+)_
 - [PyYaml 3.11+](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pyyaml)
-- [pip 1.5+](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pip) _(no need for Python 3.4+)_
+- [pip 1.5.6+](http://www.lfd.uci.edu/~gohlke/pythonlibs/#pip) _(no need for Python 3.4+)_
 - add `X:\Python33\Scripts` directory to your `PATH` environment variable
 - `pip3 install pyirsdk`
 
