@@ -14,11 +14,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-# fix parsing CarNumber with leading zeros
-yaml.add_constructor('!car_number', lambda loader, node: loader.construct_scalar(node), YamlLoader)
-getattr(YamlLoader, 'yaml_implicit_resolvers')['0'].insert(0, ('!car_number', re.compile(r'^0\d+$')))
-
-VERSION = '1.1.0'
+VERSION = '1.1.1'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -420,16 +416,15 @@ class IRSDK:
             broadcast_type | var1 << 16, var2 | var3 << 16)
 
     def _pad_car_num(self, num):
-        if isinstance(num, str):
-            num_len = len(num)
-            zero = num_len - len(num.lstrip("0"))
-            if zero > 0 and num_len == zero:
-                zero -= 1
-            num = int(num)
-            if zero:
-                num_place = 3 if num > 99 else 2 if num > 9 else 1
-                return num + 1000 * (num_place + zero)
-        return num
+        num = str(num)
+        num_len = len(num)
+        zero = num_len - len(num.lstrip("0"))
+        if zero > 0 and num_len == zero:
+            zero -= 1
+        num = int(num)
+        if zero:
+            num_place = 3 if num > 99 else 2 if num > 9 else 1
+            return num + 1000 * (num_place + zero)
 
 class IBT:
     def __init__(self):
@@ -486,16 +481,30 @@ class IBT:
     def get(self, index, key):
         if not self._header:
             return None
-        if index >= self.buffers_length:
+        if 0 > index >= self.buffers_length:
             return None
         if key in self._var_headers_dict:
             var_header = self._var_headers_dict[key]
-            var_buf_offset = self._header.var_buf[0].buf_offset + index * self._header.buf_len
-            res = struct.unpack_from(
-                VAR_TYPE_MAP[var_header.type] * var_header.count,
-                self._shared_mem,
-                var_buf_offset + var_header.offset)
+            fmt = VAR_TYPE_MAP[var_header.type] * var_header.count
+            var_offset = var_header.offset + self._header.var_buf[0].buf_offset + index * self._header.buf_len
+            res = struct.unpack_from(fmt, self._shared_mem, var_offset)
             return res[0] if var_header.count == 1 else list(res)
+        return None
+
+    def get_all(self, key):
+        if not self._header:
+            return None
+        if key in self._var_headers_dict:
+            var_header = self._var_headers_dict[key]
+            fmt = VAR_TYPE_MAP[var_header.type] * var_header.count
+            var_offset = var_header.offset + self._header.var_buf[0].buf_offset
+            buf_len = self._header.buf_len
+            sigle_or_array = var_header.count == 1
+            results = []
+            for i in range(self.buffers_length):
+                res = struct.unpack_from(fmt, self._shared_mem, var_offset + i * buf_len)
+                results.append(res[0] if sigle_or_array else list(res))
+            return results
         return None
 
     @property
