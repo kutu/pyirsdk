@@ -14,7 +14,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.1.1'
+VERSION = '1.1.2'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -393,8 +393,6 @@ class IRSDK:
 
             if start != -1 and end != -1:
                 yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', self._shared_mem[start:end].rstrip(b'\x00').decode('latin-1'))
-                # fix double-quoted
-                yaml_src = re.sub('\"', '\'', yaml_src)
                 result = yaml.load(yaml_src, Loader=YamlLoader)
                 if result:
                     self.__session_info_dict.update(result)
