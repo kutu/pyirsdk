@@ -390,6 +390,10 @@ class IRSDK:
 
             if start != -1 and end != -1:
                 yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', self._shared_mem[start:end].rstrip(b'\x00').decode('latin-1'))
+                if key == 'DriverInfo':
+                    def team_name_replace(m):
+                        return 'TeamName: "%s"' % re.sub(r'(["\\])', '\\\\\\1', m.group(1))
+                    yaml_src = re.sub(r'TeamName: (.*)', team_name_replace, yaml_src)
                 result = yaml.load(yaml_src, Loader=YamlLoader)
                 if result:
                     self.__session_info_dict.update(result)
