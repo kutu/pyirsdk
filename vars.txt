@@ -4,32 +4,46 @@ CamCameraNumber                   Active camera number,
 CamCameraState                    State of camera system, irsdk_CameraState
 CamCarIdx                         Active camera's focus car index,
 CamGroupNumber                    Active camera group number,
+CarIdxClassPosition               Cars class position in race by car index,
+CarIdxEstTime                     Estimated time to reach current location on track, s
+CarIdxF2Time                      Race time behind leader or fastest lap time otherwise, s
 CarIdxGear                        -1=reverse  0=neutral  1..n=current gear by car index,
 CarIdxLap                         Lap count by car index,
 CarIdxLapDistPct                  Percentage distance around lap by car index, %
 CarIdxOnPitRoad                   On pit road between the cones by car index,
+CarIdxPosition                    Cars position in race by car index,
 CarIdxRPM                         Engine rpm by car index, revs/min
 CarIdxSteer                       Steering wheel angle by car index, rad
 CarIdxTrackSurface                Track surface type by car index, irsdk_TrkLoc
 Clutch                            0=disengaged to 1=fully engaged, %
 CpuUsageBG                        Percent of available tim bg thread took with a 1 sec avg, %
 dcABS                             In car abs adjustment,
-dcBrakeBias                       In car brake bias adjustment, %
+dcBrakeBias                       In car brake bias adjustment,
+DCDriversSoFar                    Number of team drivers who have run a stint,
 dcFuelMixture                     In car fuel mixture adjustment,
+DCLapStatus                       Status of driver change lap requirements,
 dcThrottleShape                   In car throttle shape adjustment,
+dcTractionControl                 In car traction control adjustment,
+DisplayUnits                      Default units for the user interface 0 = english 1 = metric,
 DriverMarker                      Driver activated flag,
 EngineWarnings                    Bitfield for warning lights, irsdk_EngineWarnings
+EnterExitReset                    Indicate action the reset key will take 0 enter 1 exit 2 reset,
 FrameRate                         Average frames per second, fps
 FuelLevel                         Liters of fuel remaining, l
 FuelLevelPct                      Percent fuel remaining, %
 FuelPress                         Engine fuel pressure, bar
 Gear                              -1=reverse  0=neutral  1..n=current gear,
+IsDiskLoggingActive               0=disk based telemetry file not being written  1=being written,
+IsDiskLoggingEnabled              0=disk based telemetry turned off  1=turned on,
 IsInGarage                        1=Car in garage physics running,
-IsOnTrack                         1=Car on track physics running,
+IsOnTrack                         1=Car on track physics running with player in car,
+IsOnTrackCar                      1=Car on track physics running,
 IsReplayPlaying                   0=replay not playing  1=replay playing,
 Lap                               Lap count,
 LapBestLap                        Players best lap number,
 LapBestLapTime                    Players best lap time, s
+LapBestNLapLap                    Player last lap in best N average lap time,
+LapBestNLapTime                   Player best N average lap time, s
 LapCurrentLapTime                 Estimate of players current lap time as shown in F3 box, s
 LapDeltaToBestLap                 Delta time for best lap, s
 LapDeltaToBestLap_DD              Rate of change of delta time for best lap, s/s
@@ -48,10 +62,14 @@ LapDeltaToSessionOptimalLap_DD    Rate of change of delta time for session optim
 LapDeltaToSessionOptimalLap_OK    Delta time for session optimal lap is valid,
 LapDist                           Meters traveled from S/F this lap, m
 LapDistPct                        Percentage distance around lap, %
+LapLasNLapSeq                     Player num consecutive clean laps completed for N average,
 LapLastLapTime                    Players last lap time, s
+LapLastNLapTime                   Player last N average lap time, s
 LatAccel                          Lateral acceleration (including gravity), m/s^2
-LFcoldPressure                    LF tire cold pressure, as set in the garage, kPa
+LFbrakeLinePress                  LF brake line pressure, bar
+LFcoldPressure                    LF tire cold pressure  as set in the garage, kPa
 LFshockDefl                       LF shock deflection, m
+LFshockVel                        LF shock velocity, m/s
 LFtempCL                          LF tire left carcass temperature, C
 LFtempCM                          LF tire middle carcass temperature, C
 LFtempCR                          LF tire right carcass temperature, C
@@ -59,8 +77,10 @@ LFwearL                           LF tire left percent tread remaining, %
 LFwearM                           LF tire middle percent tread remaining, %
 LFwearR                           LF tire right percent tread remaining, %
 LongAccel                         Longitudinal acceleration (including gravity), m/s^2
-LRcoldPressure                    LR tire cold pressure, as set in the garage, kPa
+LRbrakeLinePress                  LR brake line pressure, bar
+LRcoldPressure                    LR tire cold pressure  as set in the garage, kPa
 LRshockDefl                       LR shock deflection, m
+LRshockVel                        LR shock velocity, m/s
 LRtempCL                          LR tire left carcass temperature, C
 LRtempCM                          LR tire middle carcass temperature, C
 LRtempCR                          LR tire right carcass temperature, C
@@ -76,16 +96,22 @@ Pitch                             Pitch orientation, rad
 PitchRate                         Pitch rate, rad/s
 PitOptRepairLeft                  Time left for optional repairs if repairs are active, s
 PitRepairLeft                     Time left for mandatory pit repairs if repairs are active, s
+PlayerCarClassPosition            Players class position in race,
+PlayerCarPosition                 Players position in race,
 RaceLaps                          Laps completed in race,
 RadioTransmitCarIdx               The car index of the current person speaking on the radio,
+RadioTransmitFrequencyIdx         The frequency index of the current person speaking on the radio,
+RadioTransmitRadioIdx             The radio index of the current person speaking on the radio,
 ReplayFrameNum                    Integer replay frame number (60 per second),
 ReplayFrameNumEnd                 Integer replay frame number from end of tape,
 ReplayPlaySlowMotion              0=not slow motion  1=replay is in slow motion,
 ReplayPlaySpeed                   Replay playback speed,
 ReplaySessionNum                  Replay session number,
 ReplaySessionTime                 Seconds since replay session start, s
-RFcoldPressure                    RF tire cold pressure, as set in the garage, kPa
+RFbrakeLinePress                  RF brake line pressure, bar
+RFcoldPressure                    RF tire cold pressure  as set in the garage, kPa
 RFshockDefl                       RF shock deflection, m
+RFshockVel                        RF shock velocity, m/s
 RFtempCL                          RF tire left carcass temperature, C
 RFtempCM                          RF tire middle carcass temperature, C
 RFtempCR                          RF tire right carcass temperature, C
@@ -95,8 +121,10 @@ RFwearR                           RF tire right percent tread remaining, %
 Roll                              Roll orientation, rad
 RollRate                          Roll rate, rad/s
 RPM                               Engine rpm, revs/min
-RRcoldPressure                    RR tire cold pressure, as set in the garage, kPa
+RRbrakeLinePress                  RR brake line pressure, bar
+RRcoldPressure                    RR tire cold pressure  as set in the garage, kPa
 RRshockDefl                       RR shock deflection, m
+RRshockVel                        RR shock velocity, m/s
 RRtempCL                          RR tire left carcass temperature, C
 RRtempCM                          RR tire middle carcass temperature, C
 RRtempCR                          RR tire right carcass temperature, C
@@ -120,6 +148,7 @@ SteeringWheelPctDamper            Force feedback % max damping, %
 SteeringWheelPctTorque            Force feedback % max torque on steering shaft unsigned, %
 SteeringWheelPctTorqueSign        Force feedback % max torque on steering shaft signed, %
 SteeringWheelPctTorqueSignStops   Force feedback % max torque on steering shaft signed stops, %
+SteeringWheelPeakForceNm          Peak torque mapping to direct input units for FFB, N*m
 SteeringWheelTorque               Output torque on steering shaft, N*m
 Throttle                          0=off throttle to 1=full throttle, %
 ThrottleRaw                       Raw throttle input 0=off throttle to 1=full throttle, %
