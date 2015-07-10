@@ -217,7 +217,6 @@ class VarHeader(IRSDKStruct):
 class IRSDK:
     def __init__(self):
         self.is_initialized = False
-        self.last_tick_count = 0
         self.last_session_info_update = 0
 
         self._shared_mem = None
@@ -278,7 +277,6 @@ class IRSDK:
 
     def shutdown(self):
         self.is_initialized = False
-        self.last_tick_count = 0
         self.last_session_info_update = 0
         if self._shared_mem:
             self._shared_mem.close()
@@ -346,7 +344,6 @@ class IRSDK:
     @property
     def _var_buffer_latest(self):
         if not self.is_initialized and not self.startup():
-            self.last_tick_count = 0
             return None
 
         var_buf = self._header.var_buf
