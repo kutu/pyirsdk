@@ -30,4 +30,4 @@ Reading from yaml data, you always must check it for existence:
 <<< '2x2 inline pole on left'
 ```
 
-All available variables (like `ir['Speed']`) with descriptions you can find [here](https://github.com/kutu/pyirsdk/vars.txt).
+Most available variables (like `ir['Speed']`) with descriptions you can find [here](https://github.com/kutu/pyirsdk/vars.txt).
