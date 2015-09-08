@@ -14,7 +14,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.1.3'
+VERSION = '1.1.4'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -302,7 +302,7 @@ class IRSDK:
     def cam_switch_pos(self, position=0, group=1, camera=0):
         return self._broadcast_msg(BroadcastMsg.cam_switch_pos, position, group, camera)
 
-    def cam_switch_num(self, car_number=0, group=1, camera=0):
+    def cam_switch_num(self, car_number='1', group=1, camera=0):
         return self._broadcast_msg(BroadcastMsg.cam_switch_num, self._pad_car_num(car_number), group, camera)
 
     def cam_set_state(self, camera_state=CameraState.cam_tool_active):
@@ -424,6 +424,7 @@ class IRSDK:
         if zero:
             num_place = 3 if num > 99 else 2 if num > 9 else 1
             return num + 1000 * (num_place + zero)
+        return num
 
 class IBT:
     def __init__(self):
