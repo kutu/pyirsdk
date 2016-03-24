@@ -14,7 +14,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.1.4'
+VERSION = '1.1.5'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -37,29 +37,29 @@ class EngineWarnings:
 
 class Flags:
     # global flags
-    checkered        = 0x00000001
-    white            = 0x00000002
-    green            = 0x00000004
-    yellow           = 0x00000008
-    red              = 0x00000010
-    blue             = 0x00000020
-    debris           = 0x00000040
-    crossed          = 0x00000080
-    yellow_waving    = 0x00000100
-    one_lap_to_green = 0x00000200
-    green_held       = 0x00000400
-    ten_to_go        = 0x00000800
-    five_to_go       = 0x00001000
-    random_waving    = 0x00002000
-    caution          = 0x00004000
-    caution_waving   = 0x00008000
+    checkered        = 0x0001
+    white            = 0x0002
+    green            = 0x0004
+    yellow           = 0x0008
+    red              = 0x0010
+    blue             = 0x0020
+    debris           = 0x0040
+    crossed          = 0x0080
+    yellow_waving    = 0x0100
+    one_lap_to_green = 0x0200
+    green_held       = 0x0400
+    ten_to_go        = 0x0800
+    five_to_go       = 0x1000
+    random_waving    = 0x2000
+    caution          = 0x4000
+    caution_waving   = 0x8000
 
     # drivers black flags
-    black      = 0x00010000
-    disqualify = 0x00020000
-    servicible = 0x00040000 # car is allowed service (not a flag)
-    furled     = 0x00080000
-    repair     = 0x00100000
+    black      = 0x010000
+    disqualify = 0x020000
+    servicible = 0x040000 # car is allowed service (not a flag)
+    furled     = 0x080000
+    repair     = 0x100000
 
     # start lights
     start_hidden = 0x10000000
@@ -97,17 +97,19 @@ class CameraState:
     use_mouse_aim_mode      = 0x0100
 
 class BroadcastMsg:
-    cam_switch_pos           = 0 # car position, group, camera
-    cam_switch_num           = 1 # driver #, group, camera
-    cam_set_state            = 2 # CameraState, unused, unused
-    replay_set_play_speed    = 3 # speed, slowMotion, unused
-    replay_set_play_position = 4 # RpyPosMode, Frame Number (high, low)
-    replay_search            = 5 # RpySrchMode, unused, unused
-    replay_set_state         = 6 # RpyStateMode, unused, unused
-    reload_textures          = 7 # ReloadTexturesMode, carIdx, unused
-    chat_command             = 8 # ChatCommandMode, subCommand, unused
-    pit_command              = 9 # PitCommandMode, parameter
-    telem_command            = 10# irsdk_TelemCommandMode, unused, unused
+    cam_switch_pos             =  0 # car position, group, camera
+    cam_switch_num             =  1 # driver #, group, camera
+    cam_set_state              =  2 # CameraState, unused, unused
+    replay_set_play_speed      =  3 # speed, slowMotion, unused
+    replay_set_play_position   =  4 # RpyPosMode, Frame Number (high, low)
+    replay_search              =  5 # RpySrchMode, unused, unused
+    replay_set_state           =  6 # RpyStateMode, unused, unused
+    reload_textures            =  7 # ReloadTexturesMode, carIdx, unused
+    chat_command               =  8 # ChatCommandMode, subCommand, unused
+    pit_command                =  9 # PitCommandMode, parameter
+    telem_command              = 10 # irsdk_TelemCommandMode, unused, unused
+    ffb_command                = 11 # irsdk_FFBCommandMode, value (float, high, low)
+    replay_search_session_time = 12 # sessionNum, sessionTimeMS (high, low)
 
 class ChatCommandMode:
     macro      = 0 # pass in a number from 1-15 representing the chat macro to launch
@@ -116,13 +118,15 @@ class ChatCommandMode:
     cancel     = 3 # Close chat window
 
 class PitCommandMode: # this only works when the driver is in the car
-    clear = 0 # Clear all pit checkboxes
-    ws    = 1 # Clean the winshield, using one tear off
-    fuel  = 2 # Add fuel, optionally specify the amount to add in liters or pass '0' to use existing amount
-    lf    = 3 # Change the left front tire, optionally specifying the pressure in KPa or pass '0' to use existing pressure
-    rf    = 4 # right front
-    lr    = 5 # left rear
-    rr    = 6 # right rear
+    clear       = 0 # Clear all pit checkboxes
+    ws          = 1 # Clean the winshield, using one tear off
+    fuel        = 2 # Add fuel, optionally specify the amount to add in liters or pass '0' to use existing amount
+    lf          = 3 # Change the left front tire, optionally specifying the pressure in KPa or pass '0' to use existing pressure
+    rf          = 4 # right front
+    lr          = 5 # left rear
+    rr          = 6 # right rear
+    clear_tires = 7 # Clear tire pit checkboxes
+    fr          = 8 # Request a fast repair
 
 class TelemCommandMode: # You can call this any time, but telemtry only records when driver is in there car
     stop    = 0 # Turn telemetry recording off
@@ -157,6 +161,18 @@ class csMode:
     at_incident = -3
     at_leader   = -2
     at_exciting = -1
+
+class PitSvFlags:
+    lf_tire_change     = 0x01
+    rf_tire_change     = 0x02
+    lr_tire_change     = 0x04
+    rr_tire_change     = 0x08
+    fuel_fill          = 0x10
+    windshield_tearoff = 0x20
+    fast_repair        = 0x40
+
+class FFBCommandMode: # You can call this any time
+    ffb_command_max_force = 0 # Set the maximum force when mapping steering torque force to direct input units (float in Nm)
 
 
 
@@ -205,6 +221,19 @@ class VarBuffer(IRSDKStruct):
     tick_count = IRSDKStruct.property_value(0, 'i')
     buf_offset = IRSDKStruct.property_value(4, 'i')
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._freezed_memory = None
+
+    def freeze(self):
+        self._freezed_memory = self._shared_mem[:]
+
+    def unfreeze(self):
+        self._freezed_memory = None
+
+    def get_memory(self):
+        return self._freezed_memory or self._shared_mem
+
 class VarHeader(IRSDKStruct):
     type = IRSDKStruct.property_value(0, 'i')
     offset = IRSDKStruct.property_value(4, 'i')
@@ -225,7 +254,8 @@ class IRSDK:
         self.__var_headers = None
         self.__var_headers_dict = None
         self.__var_headers_names = None
-        self.__session_info_dict = None
+        self.__var_buffer_latest = None
+        self.__session_info_dict = {}
         self.__broadcast_msg_id = None
 
     def __getitem__(self, key):
@@ -234,7 +264,7 @@ class IRSDK:
             var_buf_latest = self._var_buffer_latest
             res = struct.unpack_from(
                 VAR_TYPE_MAP[var_header.type] * var_header.count,
-                self._shared_mem,
+                var_buf_latest.get_memory(),
                 var_buf_latest.buf_offset + var_header.offset)
             return res[0] if var_header.count == 1 else list(res)
 
@@ -267,9 +297,8 @@ class IRSDK:
 
         if self._shared_mem:
             if dump_to:
-                f = open(dump_to, 'wb')
-                f.write(self._shared_mem)
-                f.close()
+                with open(dump_to, 'wb') as f:
+                    f.write(self._shared_mem)
             self._header = Header(self._shared_mem)
             self.is_initialized = self._header.version == 1 and len(self._header.var_buf) > 0
 
@@ -285,7 +314,8 @@ class IRSDK:
         self.__var_headers = None
         self.__var_headers_dict = None
         self.__var_headers_names = None
-        self.__session_info_dict = None
+        self.__var_buffer_latest = None
+        self.__session_info_dict = {}
         self.__broadcast_msg_id = None
 
     def parse_to(self, to_file):
@@ -338,6 +368,12 @@ class IRSDK:
     def telem_command(self, telem_command_mode=TelemCommandMode.stop):
         return self._broadcast_msg(BroadcastMsg.telem_command, telem_command_mode)
 
+    def ffb_command(self, ffb_command_mode=FFBCommandMode.ffb_command_max_force, value=0.0):
+        return self._broadcast_msg(BroadcastMsg.ffb_command, ffb_command_mode, float(value))
+
+    def replay_search_session_time(self, session_num=0, session_time_ms=0):
+        return self._broadcast_msg(BroadcastMsg.replay_search_session_time, session_num, session_time_ms)
+
     def _check_sim_status(self):
         return 'running:1' in request.urlopen(SIM_STATUS_URL).read().decode('utf-8')
 
@@ -345,14 +381,9 @@ class IRSDK:
     def _var_buffer_latest(self):
         if not self.is_initialized and not self.startup():
             return None
-
-        var_buf = self._header.var_buf
-        var_buf_latest = var_buf[0]
-        for i in range(1, self._header.num_buf):
-            if var_buf_latest.tick_count < var_buf[i].tick_count:
-                var_buf_latest = var_buf[i]
-
-        return var_buf_latest
+        if self.__var_buffer_latest:
+            return self.__var_buffer_latest
+        return sorted(self._header.var_buf, key=lambda v: v.tick_count)[-1]
 
     @property
     def _var_headers(self):
@@ -371,38 +402,76 @@ class IRSDK:
                 self.__var_headers_dict[var_header.name] = var_header
         return self.__var_headers_dict
 
-    def _get_session_info(self, key=None):
+    def freeze_var_buffer_latest(self):
+        self.unfreeze_var_buffer_latest()
+        self.__var_buffer_latest = self._var_buffer_latest
+        self.__var_buffer_latest.freeze()
+
+    def unfreeze_var_buffer_latest(self):
+        if self.__var_buffer_latest:
+            self.__var_buffer_latest.unfreeze()
+            self.__var_buffer_latest = None
+
+    def get_session_info_update_by_key(self, key):
+        if key in self.__session_info_dict:
+            return self.__session_info_dict[key]['update']
+        return None
+
+    def _get_session_info(self, key):
         if self.last_session_info_update < self._header.session_info_update:
             self.last_session_info_update = self._header.session_info_update
-            self.__session_info_dict = {}
-
-        if key is None:
-            self.__session_info_dict = {}
+            for sesData in self.__session_info_dict.values():
+                # keep previous parsed data, in case, binary data not changed
+                if sesData['data']:
+                    sesData['data_last'] = sesData['data']
+                sesData['data'] = None
 
         if key not in self.__session_info_dict:
-            start = self._header.session_info_offset
-            end = self._header.session_info_len
+            self.__session_info_dict[key] = dict(data=None)
 
-            if key is not None:
-                self._shared_mem.seek(0)
-                start = self._shared_mem.find(('\n%s:\n' % key).encode('latin-1'), start, end)
-                end = self._shared_mem.find(b'\n\n', start, end)
+        sesData = self.__session_info_dict[key]
 
-            if start != -1 and end != -1:
-                yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', self._shared_mem[start:end].rstrip(b'\x00').decode('latin-1'))
-                if key == 'DriverInfo':
-                    def team_name_replace(m):
-                        return 'TeamName: "%s"' % re.sub(r'(["\\])', '\\\\\\1', m.group(1))
-                    yaml_src = re.sub(r'TeamName: (.*)', team_name_replace, yaml_src)
-                result = yaml.load(yaml_src, Loader=YamlLoader)
-                if result:
-                    self.__session_info_dict.update(result)
-            elif key is not None:
-                self.__session_info_dict[key] = None
+        # already have and parsed
+        if sesData['data']:
+            return sesData['data']
 
-        if key is None:
-            return self.__session_info_dict
-        return self.__session_info_dict.get(key)
+        start = self._header.session_info_offset
+        end = self._header.session_info_len
+
+        # search section by key
+        self._shared_mem.seek(0)
+        start = self._shared_mem.find(('\n%s:\n' % key).encode('latin-1'), start, end)
+        end = self._shared_mem.find(b'\n\n', start, end)
+        data_binary = self._shared_mem[start:end]
+
+        # section not found
+        if not data_binary:
+            if 'data_last' in sesData:
+                return sesData['data_last']
+            else:
+                del self.__session_info_dict[key]
+                return None
+
+        # is binary data the same as last time?
+        if 'data_binary' in sesData and data_binary == sesData['data_binary']:
+            sesData['data'] = sesData['data_last']
+            return sesData['data']
+        sesData['data_binary'] = data_binary
+
+        # parsing
+        yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', data_binary.rstrip(b'\x00').decode('latin-1'))
+        if key == 'DriverInfo':
+            def team_name_replace(m):
+                return 'TeamName: "%s"' % re.sub(r'(["\\])', '\\\\\\1', m.group(1))
+            yaml_src = re.sub(r'TeamName: (.*)', team_name_replace, yaml_src)
+        result = yaml.load(yaml_src, Loader=YamlLoader)
+        if result:
+            sesData['data'] = result[key]
+            if sesData['data']:
+                sesData['update'] = self.last_session_info_update
+            else:
+                sesData['data'] = sesData['data_last']
+        return sesData['data']
 
     @property
     def _broadcast_msg_id(self):
@@ -411,6 +480,8 @@ class IRSDK:
         return self.__broadcast_msg_id
 
     def _broadcast_msg(self, broadcast_type=0, var1=0, var2=0, var3=0):
+        if isinstance(var2, float):
+            var2 = int(var2 * 65536.0)
         return ctypes.windll.user32.SendNotifyMessageW(0xFFFF, self._broadcast_msg_id,
             broadcast_type | var1 << 16, var2 | var3 << 16)
 
@@ -445,6 +516,10 @@ class IBT:
     @property
     def file_name(self):
         return self._ibt_file and self._ibt_file.name
+
+    @property
+    def var_header_buffer_tick(self):
+        return self._header and self._header.var_buf[0].tick_count
 
     @property
     def var_headers_names(self):
