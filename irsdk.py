@@ -14,7 +14,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.1.5'
+VERSION = '1.1.5.1'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -453,7 +453,7 @@ class IRSDK:
                 return None
 
         # is binary data the same as last time?
-        if 'data_binary' in sesData and data_binary == sesData['data_binary']:
+        if 'data_binary' in sesData and data_binary == sesData['data_binary'] and 'data_last' in sesData:
             sesData['data'] = sesData['data_last']
             return sesData['data']
         sesData['data_binary'] = data_binary
@@ -469,7 +469,7 @@ class IRSDK:
             sesData['data'] = result[key]
             if sesData['data']:
                 sesData['update'] = self.last_session_info_update
-            else:
+            elif 'data_last' in sesData:
                 sesData['data'] = sesData['data_last']
         return sesData['data']
 
