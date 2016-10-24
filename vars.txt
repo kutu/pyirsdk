@@ -34,6 +34,7 @@ FuelLevelPct                      Percent fuel remaining, %
 FuelPress                         Engine fuel pressure, bar
 FuelUsePerHour                    Engine fuel used instantaneous, kg/h
 Gear                              -1=reverse  0=neutral  1..n=current gear,
+HandbrakeRaw                      Raw handbrake input 0=handbrake released to 1=max force, %
 IsDiskLoggingActive               0=disk based telemetry file not being written  1=being written,
 IsDiskLoggingEnabled              0=disk based telemetry turned off  1=turned on,
 IsInGarage                        1=Car in garage physics running,
@@ -106,7 +107,12 @@ PitSvLRP                          Pit service left rear tire pressure, kPa
 PitSvRFP                          Pit service right front tire pressure, kPa
 PitSvRRP                          Pit service right rear tire pressure, kPa
 PlayerCarClassPosition            Players class position in race,
+PlayerCarDriverIncidentCount      Teams current drivers incident count for this session,
+PlayerCarIdx                      Players carIdx,
+PlayerCarMyIncidentCount          Players own incident count for this session,
 PlayerCarPosition                 Players position in race,
+PlayerCarTeamIncidentCount        Players team incident count for this session,
+PlayerTrackSurface                Players car track surface type, irsdk_TrkLoc
 RaceLaps                          Laps completed in race,
 RadioTransmitCarIdx               The car index of the current person speaking on the radio,
 RadioTransmitFrequencyIdx         The frequency index of the current person speaking on the radio,
