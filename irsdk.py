@@ -6,7 +6,7 @@ import mmap
 import struct
 import ctypes
 import yaml
-from urllib import request
+from urllib import request, error
 from yaml.reader import Reader as YamlReader
 
 try:
@@ -375,7 +375,11 @@ class IRSDK:
         return self._broadcast_msg(BroadcastMsg.replay_search_session_time, session_num, session_time_ms)
 
     def _check_sim_status(self):
-        return 'running:1' in request.urlopen(SIM_STATUS_URL).read().decode('utf-8')
+        try:
+            return 'running:1' in request.urlopen(SIM_STATUS_URL).read().decode('utf-8')
+        except error.URLError as e:
+            print("Failed to connect to sim: {}".format(e.reason))
+            return False
 
     @property
     def _var_buffer_latest(self):
@@ -619,4 +623,3 @@ def main():
 
 if __name__ == '__main__':
     main()
-
