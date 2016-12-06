@@ -14,7 +14,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.1.5.1'
+VERSION = '1.1.5.2'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -300,7 +300,7 @@ class IRSDK:
                 with open(dump_to, 'wb') as f:
                     f.write(self._shared_mem)
             self._header = Header(self._shared_mem)
-            self.is_initialized = self._header.version == 1 and len(self._header.var_buf) > 0
+            self.is_initialized = self._header.version >= 1 and len(self._header.var_buf) > 0
 
         return self.is_initialized
 

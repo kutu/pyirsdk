@@ -19,6 +19,7 @@ CarIdxPosition                    Cars position in race by car index,
 CarIdxRPM                         Engine rpm by car index, revs/min
 CarIdxSteer                       Steering wheel angle by car index, rad
 CarIdxTrackSurface                Track surface type by car index, irsdk_TrkLoc
+CarIdxTrackSurfaceMaterial        Track surface material type by car index, irsdk_TrkSurf
 Clutch                            0=disengaged to 1=fully engaged, %
 CpuUsageBG                        Percent of available tim bg thread took with a 1 sec avg, %
 DCDriversSoFar                    Number of team drivers who have run a stint,
@@ -72,7 +73,9 @@ LatAccel                          Lateral acceleration (including gravity), m/s^
 LFbrakeLinePress                  LF brake line pressure, bar
 LFcoldPressure                    LF tire cold pressure  as set in the garage, kPa
 LFshockDefl                       LF shock deflection, m
+LFshockDefl_ST                    LF shock deflection at 360 Hz, m
 LFshockVel                        LF shock velocity, m/s
+LFshockVel_ST                     LF shock velocity at 360 Hz, m/s
 LFtempCL                          LF tire left carcass temperature, C
 LFtempCM                          LF tire middle carcass temperature, C
 LFtempCR                          LF tire right carcass temperature, C
@@ -83,7 +86,9 @@ LongAccel                         Longitudinal acceleration (including gravity),
 LRbrakeLinePress                  LR brake line pressure, bar
 LRcoldPressure                    LR tire cold pressure  as set in the garage, kPa
 LRshockDefl                       LR shock deflection, m
+LRshockDefl_ST                    LR shock deflection at 360 Hz, m
 LRshockVel                        LR shock velocity, m/s
+LRshockVel_ST                     LR shock velocity at 360 Hz, m/s
 LRtempCL                          LR tire left carcass temperature, C
 LRtempCM                          LR tire middle carcass temperature, C
 LRtempCR                          LR tire right carcass temperature, C
@@ -113,6 +118,8 @@ PlayerCarMyIncidentCount          Players own incident count for this session,
 PlayerCarPosition                 Players position in race,
 PlayerCarTeamIncidentCount        Players team incident count for this session,
 PlayerTrackSurface                Players car track surface type, irsdk_TrkLoc
+PlayerTrackSurfaceMaterial        Players car track surface material type, irsdk_TrkSurf
+PushToPass                        Push to pass button state,
 RaceLaps                          Laps completed in race,
 RadioTransmitCarIdx               The car index of the current person speaking on the radio,
 RadioTransmitFrequencyIdx         The frequency index of the current person speaking on the radio,
@@ -127,7 +134,9 @@ ReplaySessionTime                 Seconds since replay session start, s
 RFbrakeLinePress                  RF brake line pressure, bar
 RFcoldPressure                    RF tire cold pressure  as set in the garage, kPa
 RFshockDefl                       RF shock deflection, m
+RFshockDefl_ST                    RF shock deflection at 360 Hz, m
 RFshockVel                        RF shock velocity, m/s
+RFshockVel_ST                     RF shock velocity at 360 Hz, m/s
 RFtempCL                          RF tire left carcass temperature, C
 RFtempCM                          RF tire middle carcass temperature, C
 RFtempCR                          RF tire right carcass temperature, C
@@ -140,7 +149,9 @@ RPM                               Engine rpm, revs/min
 RRbrakeLinePress                  RR brake line pressure, bar
 RRcoldPressure                    RR tire cold pressure  as set in the garage, kPa
 RRshockDefl                       RR shock deflection, m
+RRshockDefl_ST                    RR shock deflection at 360 Hz, m
 RRshockVel                        RR shock velocity, m/s
+RRshockVel_ST                     RR shock velocity at 360 Hz, m/s
 RRtempCL                          RR tire left carcass temperature, C
 RRtempCM                          RR tire middle carcass temperature, C
 RRtempCR                          RR tire right carcass temperature, C
@@ -169,8 +180,13 @@ SteeringWheelPctTorqueSign        Force feedback % max torque on steering shaft 
 SteeringWheelPctTorqueSignStops   Force feedback % max torque on steering shaft signed stops, %
 SteeringWheelPeakForceNm          Peak torque mapping to direct input units for FFB, N*m
 SteeringWheelTorque               Output torque on steering shaft, N*m
+SteeringWheelTorque_ST            Output torque on steering shaft at 360 Hz, N*m
 Throttle                          0=off throttle to 1=full throttle, %
 ThrottleRaw                       Raw throttle input 0=off throttle to 1=full throttle, %
+TireLF_RumblePitch                Players LF Tire Sound rumblestrip pitch, Hz
+TireLR_RumblePitch                Players LR Tire Sound rumblestrip pitch, Hz
+TireRF_RumblePitch                Players RF Tire Sound rumblestrip pitch, Hz
+TireRR_RumblePitch                Players RR Tire Sound rumblestrip pitch, Hz
 TrackTemp                         Temperature of track at start/finish line, C
 TrackTempCrew                     Temperature of track measured by crew around track, C
 VelocityX                         X velocity, m/s
