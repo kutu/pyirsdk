@@ -14,7 +14,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.1.5.2'
+VERSION = '1.1.6'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -73,6 +73,37 @@ class TrkLoc:
     in_pit_stall    = 1
     aproaching_pits = 2
     on_track        = 3
+
+class TrkSurf:
+    not_in_world  = -1
+    undefined     =  0
+    asphalt_1     =  1
+    asphalt_2     =  2
+    asphalt_3     =  3
+    asphalt_4     =  4
+    concrete_1    =  5
+    concrete_2    =  6
+    racing_dirt_1 =  7
+    racing_dirt_2 =  8
+    paint_1       =  9
+    paint_2       = 10
+    rumble_1      = 11
+    rumble_2      = 12
+    rumble_3      = 13
+    rumble_4      = 14
+    grass_1       = 15
+    grass_2       = 16
+    grass_3       = 17
+    grass_4       = 18
+    dirt_1        = 19
+    dirt_2        = 20
+    dirt_3        = 21
+    dirt_4        = 22
+    sand          = 23
+    gravel_1      = 24
+    gravel_2      = 25
+    grasscrete    = 26
+    astroturf     = 27
 
 class SessionState:
     invalid     = 0
@@ -238,7 +269,7 @@ class VarHeader(IRSDKStruct):
     type = IRSDKStruct.property_value(0, 'i')
     offset = IRSDKStruct.property_value(4, 'i')
     count = IRSDKStruct.property_value(8, 'i')
-
+    count_as_time = IRSDKStruct.property_value(12, '?')
     name = IRSDKStruct.property_value_str(16, '32s')
     desc = IRSDKStruct.property_value_str(48, '64s')
     unit = IRSDKStruct.property_value_str(112, '32s')
