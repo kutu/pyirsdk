@@ -14,7 +14,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.1.6'
+VERSION = '1.1.7'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -149,15 +149,18 @@ class ChatCommandMode:
     cancel     = 3 # Close chat window
 
 class PitCommandMode: # this only works when the driver is in the car
-    clear       = 0 # Clear all pit checkboxes
-    ws          = 1 # Clean the winshield, using one tear off
-    fuel        = 2 # Add fuel, optionally specify the amount to add in liters or pass '0' to use existing amount
-    lf          = 3 # Change the left front tire, optionally specifying the pressure in KPa or pass '0' to use existing pressure
-    rf          = 4 # right front
-    lr          = 5 # left rear
-    rr          = 6 # right rear
-    clear_tires = 7 # Clear tire pit checkboxes
-    fr          = 8 # Request a fast repair
+    clear       =  0 # Clear all pit checkboxes
+    ws          =  1 # Clean the winshield, using one tear off
+    fuel        =  2 # Add fuel, optionally specify the amount to add in liters or pass '0' to use existing amount
+    lf          =  3 # Change the left front tire, optionally specifying the pressure in KPa or pass '0' to use existing pressure
+    rf          =  4 # right front
+    lr          =  5 # left rear
+    rr          =  6 # right rear
+    clear_tires =  7 # Clear tire pit checkboxes
+    fr          =  8 # Request a fast repair
+    clear_ws    =  9 # Uncheck Clean the winshield checkbox
+    clear_fr    = 10 # Uncheck request a fast repair
+    clear_fuel  = 11 # Uncheck add fuel
 
 class TelemCommandMode: # You can call this any time, but telemtry only records when driver is in there car
     stop    = 0 # Turn telemetry recording off
