@@ -14,7 +14,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.1.7'
+VERSION = '1.1.8'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -478,7 +478,7 @@ class IRSDK:
 
         # search section by key
         self._shared_mem.seek(0)
-        start = self._shared_mem.find(('\n%s:\n' % key).encode('latin-1'), start, end)
+        start = self._shared_mem.find(('\n%s:\n' % key).encode('cp1252'), start, end)
         end = self._shared_mem.find(b'\n\n', start, end)
         data_binary = self._shared_mem[start:end]
 
@@ -497,7 +497,7 @@ class IRSDK:
         sesData['data_binary'] = data_binary
 
         # parsing
-        yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', data_binary.rstrip(b'\x00').decode('latin-1'))
+        yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', data_binary.rstrip(b'\x00').decode('cp1252'))
         if key == 'DriverInfo':
             def team_name_replace(m):
                 return 'TeamName: "%s"' % re.sub(r'(["\\])', '\\\\\\1', m.group(1))
