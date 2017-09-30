@@ -14,7 +14,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.1.8'
+VERSION = '1.1.9'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -23,6 +23,9 @@ MEMMAPFILESIZE = 780 * 1024
 BROADCASTMSGNAME = 'IRSDK_BROADCASTMSG'
 
 VAR_TYPE_MAP = ['c', '?', 'i', 'I', 'f', 'd']
+
+YAML_TRANSLATER = bytes.maketrans(b'\x81\x8D\x8F\x90\x9D', b'     ')
+YAML_CODE_PAGE = 'cp1252'
 
 class StatusField:
     status_connected = 1
@@ -205,6 +208,14 @@ class PitSvFlags:
     windshield_tearoff = 0x20
     fast_repair        = 0x40
 
+class CarLeftRight:
+    clear          = 1 # no cars around us.
+    car_left       = 2 # there is a car to our left.
+    car_right      = 3 # there is a car to our right.
+    car_left_right = 4 # there are cars on each side.
+    two_cars_left  = 5 # there are two cars to our left.
+    two_cars_right = 6 # there are two cars to our right.
+
 class FFBCommandMode: # You can call this any time
     ffb_command_max_force = 0 # Set the maximum force when mapping steering torque force to direct input units (float in Nm)
 
@@ -356,7 +367,7 @@ class IRSDK:
         if not self.is_initialized:
             return
         f = open(to_file, 'w', encoding='utf-8')
-        f.write(self._shared_mem[self._header.session_info_offset:self._header.session_info_len].rstrip(b'\x00').decode('latin-1'))
+        f.write(self._shared_mem[self._header.session_info_offset:self._header.session_info_len].rstrip(b'\x00').decode(YAML_CODE_PAGE))
         f.write('\n'.join([
             '{:32}{}'.format(i, self[i])
             for i in sorted(self._var_headers_dict.keys(), key=str.lower)
@@ -478,7 +489,7 @@ class IRSDK:
 
         # search section by key
         self._shared_mem.seek(0)
-        start = self._shared_mem.find(('\n%s:\n' % key).encode('cp1252'), start, end)
+        start = self._shared_mem.find(('\n%s:\n' % key).encode(YAML_CODE_PAGE), start, end)
         end = self._shared_mem.find(b'\n\n', start, end)
         data_binary = self._shared_mem[start:end]
 
@@ -497,7 +508,7 @@ class IRSDK:
         sesData['data_binary'] = data_binary
 
         # parsing
-        yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', data_binary.rstrip(b'\x00').decode('cp1252'))
+        yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', data_binary.translate(YAML_TRANSLATER).rstrip(b'\x00').decode(YAML_CODE_PAGE))
         if key == 'DriverInfo':
             def team_name_replace(m):
                 return 'TeamName: "%s"' % re.sub(r'(["\\])', '\\\\\\1', m.group(1))

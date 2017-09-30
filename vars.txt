@@ -20,6 +20,7 @@ CarIdxRPM                         Engine rpm by car index, revs/min
 CarIdxSteer                       Steering wheel angle by car index, rad
 CarIdxTrackSurface                Track surface type by car index, irsdk_TrkLoc
 CarIdxTrackSurfaceMaterial        Track surface material type by car index, irsdk_TrkSurf
+CarLeftRight                      Notify if car is to the left or right of driver, irsdk_CarLeftRight
 Clutch                            0=disengaged to 1=fully engaged, %
 CpuUsageBG                        Percent of available tim bg thread took with a 1 sec avg, %
 DCDriversSoFar                    Number of team drivers who have run a stint,
