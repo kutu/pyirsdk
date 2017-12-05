@@ -71,6 +71,7 @@ LapLasNLapSeq                     Player num consecutive clean laps completed fo
 LapLastLapTime                    Players last lap time, s
 LapLastNLapTime                   Player last N average lap time, s
 LatAccel                          Lateral acceleration (including gravity), m/s^2
+LatAccel_ST                       Lateral acceleration (including gravity) at 360 Hz, m/s^2
 LFbrakeLinePress                  LF brake line pressure, bar
 LFcoldPressure                    LF tire cold pressure  as set in the garage, kPa
 LFshockDefl                       LF shock deflection, m
@@ -84,6 +85,7 @@ LFwearL                           LF tire left percent tread remaining, %
 LFwearM                           LF tire middle percent tread remaining, %
 LFwearR                           LF tire right percent tread remaining, %
 LongAccel                         Longitudinal acceleration (including gravity), m/s^2
+LongAccel_ST                      Longitudinal acceleration (including gravity) at 360 Hz, m/s^2
 LRbrakeLinePress                  LR brake line pressure, bar
 LRcoldPressure                    LR tire cold pressure  as set in the garage, kPa
 LRshockDefl                       LR shock deflection, m
@@ -104,6 +106,7 @@ OkToReloadTextures                True if it is ok to reload car textures at thi
 OnPitRoad                         Is the player car on pit road between the cones,
 Pitch                             Pitch orientation, rad
 PitchRate                         Pitch rate, rad/s
+PitchRate_ST                      Pitch rate at 360 Hz, rad/s
 PitOptRepairLeft                  Time left for optional repairs if repairs are active, s
 PitRepairLeft                     Time left for mandatory pit repairs if repairs are active, s
 PitSvFlags                        Bitfield of pit service checkboxes, irsdk_PitSvFlags
@@ -118,6 +121,7 @@ PlayerCarIdx                      Players carIdx,
 PlayerCarMyIncidentCount          Players own incident count for this session,
 PlayerCarPosition                 Players position in race,
 PlayerCarTeamIncidentCount        Players team incident count for this session,
+PlayerCarWeightPenalty            Players weight penalty, kg
 PlayerTrackSurface                Players car track surface type, irsdk_TrkLoc
 PlayerTrackSurfaceMaterial        Players car track surface material type, irsdk_TrkSurf
 PushToPass                        Push to pass button state,
@@ -146,6 +150,7 @@ RFwearM                           RF tire middle percent tread remaining, %
 RFwearR                           RF tire right percent tread remaining, %
 Roll                              Roll orientation, rad
 RollRate                          Roll rate, rad/s
+RollRate_ST                       Roll rate at 360 Hz, rad/s
 RPM                               Engine rpm, revs/min
 RRbrakeLinePress                  RR brake line pressure, bar
 RRcoldPressure                    RR tire cold pressure  as set in the garage, kPa
@@ -191,9 +196,13 @@ TireRR_RumblePitch                Players RR Tire Sound rumblestrip pitch, Hz
 TrackTemp                         Temperature of track at start/finish line, C
 TrackTempCrew                     Temperature of track measured by crew around track, C
 VelocityX                         X velocity, m/s
+VelocityX_ST                      X velocity, m/s at 360 Hz
 VelocityY                         Y velocity, m/s
+VelocityY_ST                      Y velocity, m/s at 360 Hz
 VelocityZ                         Z velocity, m/s
+VelocityZ_ST                      Z velocity, m/s at 360 Hz
 VertAccel                         Vertical acceleration (including gravity), m/s^2
+VertAccel_ST                      Vertical acceleration (including gravity) at 360 Hz, m/s^2
 Voltage                           Engine voltage, V
 WaterLevel                        Engine coolant level, l
 WaterTemp                         Engine coolant temp, C
@@ -203,3 +212,4 @@ WindVel                           Wind velocity at start/finish line, m/s
 Yaw                               Yaw orientation, rad
 YawNorth                          Yaw orientation relative to north, rad
 YawRate                           Yaw rate, rad/s
+YawRate_ST                        Yaw rate at 360 Hz, rad/s

@@ -14,12 +14,12 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.1.9'
+VERSION = '1.1.10'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
 MEMMAPFILE = 'Local\\IRSDKMemMapFileName'
-MEMMAPFILESIZE = 780 * 1024
+MEMMAPFILESIZE = 1164 * 1024
 BROADCASTMSGNAME = 'IRSDK_BROADCASTMSG'
 
 VAR_TYPE_MAP = ['c', '?', 'i', 'I', 'f', 'd']
