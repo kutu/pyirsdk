@@ -14,7 +14,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.1.10'
+VERSION = '1.1.11'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -490,7 +490,9 @@ class IRSDK:
         # search section by key
         self._shared_mem.seek(0)
         start = self._shared_mem.find(('\n%s:\n' % key).encode(YAML_CODE_PAGE), start, end)
-        end = self._shared_mem.find(b'\n\n', start, end)
+        match_end = re.compile(b'\n\w').search(self._shared_mem, start + 1, end)
+        if match_end:
+            end = match_end.start()
         data_binary = self._shared_mem[start:end]
 
         # section not found
