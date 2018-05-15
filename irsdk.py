@@ -6,6 +6,7 @@ import mmap
 import struct
 import ctypes
 import yaml
+from threading import Thread
 from urllib import request, error
 from yaml.reader import Reader as YamlReader
 
@@ -14,7 +15,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.1.11'
+VERSION = '1.2.0'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -289,7 +290,8 @@ class VarHeader(IRSDKStruct):
     unit = IRSDKStruct.property_value_str(112, '32s')
 
 class IRSDK:
-    def __init__(self):
+    def __init__(self, parse_yaml_async=False):
+        self.parse_yaml_async = parse_yaml_async
         self.is_initialized = False
         self.last_session_info_update = 0
 
@@ -469,20 +471,31 @@ class IRSDK:
     def _get_session_info(self, key):
         if self.last_session_info_update < self._header.session_info_update:
             self.last_session_info_update = self._header.session_info_update
-            for sesData in self.__session_info_dict.values():
-                # keep previous parsed data, in case, binary data not changed
-                if sesData['data']:
-                    sesData['data_last'] = sesData['data']
-                sesData['data'] = None
+            for session_data in self.__session_info_dict.values():
+                # keep previous parsed data, in case binary data not changed
+                if session_data['data']:
+                    session_data['data_last'] = session_data['data']
+                session_data['data'] = None
 
         if key not in self.__session_info_dict:
             self.__session_info_dict[key] = dict(data=None)
 
-        sesData = self.__session_info_dict[key]
+        session_data = self.__session_info_dict[key]
 
         # already have and parsed
-        if sesData['data']:
-            return sesData['data']
+        if session_data['data']:
+            return session_data['data']
+
+        if self.parse_yaml_async:
+            if 'async_session_info_update' not in session_data or session_data['async_session_info_update'] < self.last_session_info_update:
+                session_data['async_session_info_update'] = self.last_session_info_update
+                Thread(target=self._parse_yaml, args=(key, session_data)).start()
+        else:
+            self._parse_yaml(key, session_data)
+        return session_data['data']
+
+    def _parse_yaml(self, key, session_data):
+        session_info_update = self.last_session_info_update
 
         start = self._header.session_info_offset
         end = self._header.session_info_len
@@ -497,17 +510,16 @@ class IRSDK:
 
         # section not found
         if not data_binary:
-            if 'data_last' in sesData:
-                return sesData['data_last']
+            if 'data_last' in session_data:
+                return session_data['data_last']
             else:
-                del self.__session_info_dict[key]
                 return None
 
         # is binary data the same as last time?
-        if 'data_binary' in sesData and data_binary == sesData['data_binary'] and 'data_last' in sesData:
-            sesData['data'] = sesData['data_last']
-            return sesData['data']
-        sesData['data_binary'] = data_binary
+        if 'data_binary' in session_data and data_binary == session_data['data_binary'] and 'data_last' in session_data:
+            session_data['data'] = session_data['data_last']
+            return session_data['data']
+        session_data['data_binary'] = data_binary
 
         # parsing
         yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', data_binary.translate(YAML_TRANSLATER).rstrip(b'\x00').decode(YAML_CODE_PAGE))
@@ -516,13 +528,13 @@ class IRSDK:
                 return 'TeamName: "%s"' % re.sub(r'(["\\])', '\\\\\\1', m.group(1))
             yaml_src = re.sub(r'TeamName: (.*)', team_name_replace, yaml_src)
         result = yaml.load(yaml_src, Loader=YamlLoader)
-        if result:
-            sesData['data'] = result[key]
-            if sesData['data']:
-                sesData['update'] = self.last_session_info_update
-            elif 'data_last' in sesData:
-                sesData['data'] = sesData['data_last']
-        return sesData['data']
+        # check if result is available, and yaml data is not updated while we were parsing it in async mode
+        if result and (not self.parse_yaml_async or self.last_session_info_update == session_info_update):
+            session_data['data'] = result[key]
+            if session_data['data']:
+                session_data['update'] = session_info_update
+            elif 'data_last' in session_data:
+                session_data['data'] = session_data['data_last']
 
     @property
     def _broadcast_msg_id(self):
