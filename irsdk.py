@@ -15,7 +15,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.2.0'
+VERSION = '1.2.1'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -319,7 +319,8 @@ class IRSDK:
 
     @property
     def is_connected(self):
-        return self._header and self._header.status == StatusField.status_connected
+        return self._header is not None and \
+            (self._header.status == StatusField.status_connected or self['SessionNum'] is not None)
 
     @property
     def session_info_update(self):
