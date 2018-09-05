@@ -25,7 +25,20 @@ Clutch                            0=disengaged to 1=fully engaged, %
 CpuUsageBG                        Percent of available tim bg thread took with a 1 sec avg, %
 DCDriversSoFar                    Number of team drivers who have run a stint,
 DCLapStatus                       Status of driver change lap requirements,
+dcStarter                         In car trigger car starter,
 DisplayUnits                      Default units for the user interface 0 = english 1 = metric,
+dpFastRepair                      Pitstop fast repair set,
+dpFuelAddKg                       Pitstop fuel add ammount, kg
+dpFuelFill                        Pitstop fuel fill flag,
+dpLFTireChange                    Pitstop lf tire change request,
+dpLFTireColdPress                 Pitstop lf tire cold pressure adjustment, Pa
+dpLRTireChange                    Pitstop lr tire change request,
+dpLRTireColdPress                 Pitstop lr tire cold pressure adjustment, Pa
+dpRFTireChange                    Pitstop rf tire change request,
+dpRFTireColdPress                 Pitstop rf cold tire pressure adjustment, Pa
+dpRRTireChange                    Pitstop rr tire change request,
+dpRRTireColdPress                 Pitstop rr cold tire pressure adjustment, Pa
+dpWindshieldTearoff               Pitstop windshield tearoff,
 DriverMarker                      Driver activated flag,
 EngineWarnings                    Bitfield for warning lights, irsdk_EngineWarnings
 EnterExitReset                    Indicate action the reset key will take 0 enter 1 exit 2 reset,
@@ -99,6 +112,8 @@ LRwearL                           LR tire left percent tread remaining, %
 LRwearM                           LR tire middle percent tread remaining, %
 LRwearR                           LR tire right percent tread remaining, %
 ManifoldPress                     Engine manifold pressure, bar
+ManualBoost                       Hybrid manual boost state,
+ManualNoBoost                     Hybrid manual no boost state,
 OilLevel                          Engine oil level, l
 OilPress                          Engine oil pressure, bar
 OilTemp                           Engine oil temperature, C
@@ -121,6 +136,7 @@ PlayerCarIdx                      Players carIdx,
 PlayerCarMyIncidentCount          Players own incident count for this session,
 PlayerCarPosition                 Players position in race,
 PlayerCarTeamIncidentCount        Players team incident count for this session,
+PlayerCarTowTime                  Players car is being towed if time is greater than zero, s
 PlayerCarWeightPenalty            Players weight penalty, kg
 PlayerTrackSurface                Players car track surface type, irsdk_TrkLoc
 PlayerTrackSurfaceMaterial        Players car track surface material type, irsdk_TrkSurf
