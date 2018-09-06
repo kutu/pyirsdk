@@ -15,7 +15,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.2.1'
+VERSION = '1.2.2'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -304,6 +304,8 @@ class IRSDK:
         self.__var_buffer_latest = None
         self.__session_info_dict = {}
         self.__broadcast_msg_id = None
+        self.__is_using_test_file = False
+        self.__workaround_connected_state = 0
 
     def __getitem__(self, key):
         if key in self._var_headers_dict:
@@ -319,8 +321,17 @@ class IRSDK:
 
     @property
     def is_connected(self):
+        if self._header:
+            if self._header.status == StatusField.status_connected:
+                self.__workaround_connected_state = 0
+            if self.__workaround_connected_state == 0 and self._header.status != StatusField.status_connected:
+                self.__workaround_connected_state = 1
+            if self.__workaround_connected_state == 1 and (self['SessionNum'] is None or self.__is_using_test_file):
+                self.__workaround_connected_state = 2
+            if self.__workaround_connected_state == 2 and self['SessionNum'] is not None:
+                self.__workaround_connected_state = 3
         return self._header is not None and \
-            (self._header.status == StatusField.status_connected or self['SessionNum'] is not None)
+            (self._header.status == StatusField.status_connected or self.__workaround_connected_state == 3)
 
     @property
     def session_info_update(self):
@@ -340,6 +351,7 @@ class IRSDK:
             if test_file:
                 f = open(test_file, 'rb')
                 self._shared_mem = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
+                self.__is_using_test_file = True
             else:
                 self._shared_mem = mmap.mmap(0, MEMMAPFILESIZE, MEMMAPFILE, access=mmap.ACCESS_READ)
 
