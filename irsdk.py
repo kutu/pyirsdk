@@ -15,7 +15,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.2.2'
+VERSION = '1.2.3'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -540,6 +540,8 @@ class IRSDK:
             def team_name_replace(m):
                 return 'TeamName: "%s"' % re.sub(r'(["\\])', '\\\\\\1', m.group(1))
             yaml_src = re.sub(r'TeamName: (.*)', team_name_replace, yaml_src)
+        if key == 'WeekendInfo':
+            yaml_src = re.sub(r'Date: (.*)', 'Date: "\\1"', yaml_src)
         result = yaml.load(yaml_src, Loader=YamlLoader)
         # check if result is available, and yaml data is not updated while we were parsing it in async mode
         if result and (not self.parse_yaml_async or self.last_session_info_update == session_info_update):
