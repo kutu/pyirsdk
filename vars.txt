@@ -124,6 +124,7 @@ PitchRate                         Pitch rate, rad/s
 PitchRate_ST                      Pitch rate at 360 Hz, rad/s
 PitOptRepairLeft                  Time left for optional repairs if repairs are active, s
 PitRepairLeft                     Time left for mandatory pit repairs if repairs are active, s
+PitsOpen                          True if pit stop is allowed for the current player,
 PitSvFlags                        Bitfield of pit service checkboxes, irsdk_PitSvFlags
 PitSvFuel                         Pit service fuel add amount, l
 PitSvLFP                          Pit service left front tire pressure, kPa
@@ -133,6 +134,7 @@ PitSvRRP                          Pit service right rear tire pressure, kPa
 PlayerCarClassPosition            Players class position in race,
 PlayerCarDriverIncidentCount      Teams current drivers incident count for this session,
 PlayerCarIdx                      Players carIdx,
+PlayerCarInPitStall               Players car is properly in there pitstall,
 PlayerCarMyIncidentCount          Players own incident count for this session,
 PlayerCarPosition                 Players position in race,
 PlayerCarTeamIncidentCount        Players team incident count for this session,
@@ -209,7 +211,7 @@ TireLF_RumblePitch                Players LF Tire Sound rumblestrip pitch, Hz
 TireLR_RumblePitch                Players LR Tire Sound rumblestrip pitch, Hz
 TireRF_RumblePitch                Players RF Tire Sound rumblestrip pitch, Hz
 TireRR_RumblePitch                Players RR Tire Sound rumblestrip pitch, Hz
-TrackTemp                         Temperature of track at start/finish line, C
+TrackTemp                         Deprecated  set to TrackTempCrew, C
 TrackTempCrew                     Temperature of track measured by crew around track, C
 VelocityX                         X velocity, m/s
 VelocityX_ST                      X velocity, m/s at 360 Hz
