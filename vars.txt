@@ -97,6 +97,7 @@ LFtempCR                          LF tire right carcass temperature, C
 LFwearL                           LF tire left percent tread remaining, %
 LFwearM                           LF tire middle percent tread remaining, %
 LFwearR                           LF tire right percent tread remaining, %
+LoadNumTextures                   True if the car_num texture will be loaded,
 LongAccel                         Longitudinal acceleration (including gravity), m/s^2
 LongAccel_ST                      Longitudinal acceleration (including gravity) at 360 Hz, m/s^2
 LRbrakeLinePress                  LR brake line pressure, bar
@@ -136,6 +137,7 @@ PlayerCarDriverIncidentCount      Teams current drivers incident count for this 
 PlayerCarIdx                      Players carIdx,
 PlayerCarInPitStall               Players car is properly in there pitstall,
 PlayerCarMyIncidentCount          Players own incident count for this session,
+PlayerCarPitSvStatus              Players car pit service status bits, irsdk_PitSvStatus
 PlayerCarPosition                 Players position in race,
 PlayerCarTeamIncidentCount        Players team incident count for this session,
 PlayerCarTowTime                  Players car is being towed if time is greater than zero, s
@@ -189,6 +191,7 @@ SessionNum                        Session number,
 SessionState                      Session state, irsdk_SessionState
 SessionTick                       Current update number,
 SessionTime                       Seconds since session start, s
+SessionTimeOfDay                  Time of day in seconds, s
 SessionTimeRemain                 Seconds left till session ends, s
 SessionUniqueID                   Session ID,
 ShiftGrindRPM                     RPM of shifter grinding noise, RPM
