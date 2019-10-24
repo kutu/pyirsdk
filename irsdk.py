@@ -15,7 +15,7 @@ try:
 except ImportError:
     from yaml import Loader as YamlLoader
 
-VERSION = '1.2.3'
+VERSION = '1.2.4'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -516,7 +516,7 @@ class IRSDK:
         # search section by key
         self._shared_mem.seek(0)
         start = self._shared_mem.find(('\n%s:\n' % key).encode(YAML_CODE_PAGE), start, end)
-        match_end = re.compile(b'\n\w').search(self._shared_mem, start + 1, end)
+        match_end = re.compile(rb'\n\w').search(self._shared_mem, start + 1, end)
         if match_end:
             end = match_end.start()
         data_binary = self._shared_mem[start:end]
@@ -537,11 +537,11 @@ class IRSDK:
         # parsing
         yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', data_binary.translate(YAML_TRANSLATER).rstrip(b'\x00').decode(YAML_CODE_PAGE))
         if key == 'DriverInfo':
-            def team_name_replace(m):
-                return 'TeamName: "%s"' % re.sub(r'(["\\])', '\\\\\\1', m.group(1))
-            yaml_src = re.sub(r'TeamName: (.*)', team_name_replace, yaml_src)
+            def name_replace(m):
+                return m.group(1) + '"%s"' % re.sub(r'(["\\])', r'\\\1', m.group(2))
+            yaml_src = re.sub(r'((?:UserName|TeamName|AbbrevName|Initials): )(.*)', name_replace, yaml_src)
         if key == 'WeekendInfo':
-            yaml_src = re.sub(r'Date: (.*)', 'Date: "\\1"', yaml_src)
+            yaml_src = re.sub(r'(Date: )(.*)', r'\1"\2"', yaml_src)
         result = yaml.load(yaml_src, Loader=YamlLoader)
         # check if result is available, and yaml data is not updated while we were parsing it in async mode
         if result and (not self.parse_yaml_async or self.last_session_info_update == session_info_update):
