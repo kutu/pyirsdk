@@ -142,6 +142,7 @@ PlayerCarInPitStall               Players car is properly in there pitstall,
 PlayerCarMyIncidentCount          Players own incident count for this session,
 PlayerCarPitSvStatus              Players car pit service status bits, irsdk_PitSvStatus
 PlayerCarPosition                 Players position in race,
+PlayerCarPowerAdjust              Players power adjust, %
 PlayerCarTeamIncidentCount        Players team incident count for this session,
 PlayerCarTowTime                  Players car is being towed if time is greater than zero, s
 PlayerCarWeightPenalty            Players weight penalty, kg
