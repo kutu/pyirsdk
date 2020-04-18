@@ -7,3 +7,7 @@ MANIFEST
 *.bin
 *.txt
 test_*.py
+*.ibt
+tutorial_*.py
+setup.cfg
+*.bat

@@ -11,11 +11,11 @@ from urllib import request, error
 from yaml.reader import Reader as YamlReader
 
 try:
-    from yaml.cyaml import CLoader as YamlLoader
+    from yaml.cyaml import CSafeLoader as YamlSafeLoader
 except ImportError:
-    from yaml import Loader as YamlLoader
+    from yaml import SafeLoader as YamlSafeLoader
 
-VERSION = '1.2.4'
+VERSION = '1.2.5'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -289,6 +289,13 @@ class VarHeader(IRSDKStruct):
     desc = IRSDKStruct.property_value_str(48, '64s')
     unit = IRSDKStruct.property_value_str(112, '32s')
 
+class DiskSubHeader(IRSDKStruct):
+    session_start_date = IRSDKStruct.property_value(0, 'Q')
+    session_start_time = IRSDKStruct.property_value(8, 'd')
+    session_end_time = IRSDKStruct.property_value(16, 'd')
+    session_lap_count = IRSDKStruct.property_value(24, 'i')
+    session_record_count = IRSDKStruct.property_value(28, 'i')
+
 class IRSDK:
     def __init__(self, parse_yaml_async=False):
         self.parse_yaml_async = parse_yaml_async
@@ -507,19 +514,21 @@ class IRSDK:
             self._parse_yaml(key, session_data)
         return session_data['data']
 
+    def _get_session_info_binary(self, key):
+        start = self._header.session_info_offset
+        end = start + self._header.session_info_len
+        # search section by key
+        match_start = re.compile(('\n%s:\n' % key).encode(YAML_CODE_PAGE)).search(self._shared_mem, start, end)
+        if not match_start:
+            return None
+        match_end = re.compile(b'\n\n').search(self._shared_mem, match_start.start() + 1, end)
+        if not match_end:
+            return None
+        return self._shared_mem[match_start.start() + 1 : match_end.start()]
+
     def _parse_yaml(self, key, session_data):
         session_info_update = self.last_session_info_update
-
-        start = self._header.session_info_offset
-        end = self._header.session_info_len
-
-        # search section by key
-        self._shared_mem.seek(0)
-        start = self._shared_mem.find(('\n%s:\n' % key).encode(YAML_CODE_PAGE), start, end)
-        match_end = re.compile(rb'\n\w').search(self._shared_mem, start + 1, end)
-        if match_end:
-            end = match_end.start()
-        data_binary = self._shared_mem[start:end]
+        data_binary = self._get_session_info_binary(key)
 
         # section not found
         if not data_binary:
@@ -540,9 +549,7 @@ class IRSDK:
             def name_replace(m):
                 return m.group(1) + '"%s"' % re.sub(r'(["\\])', r'\\\1', m.group(2))
             yaml_src = re.sub(r'((?:UserName|TeamName|AbbrevName|Initials): )(.*)', name_replace, yaml_src)
-        if key == 'WeekendInfo':
-            yaml_src = re.sub(r'(Date: )(.*)', r'\1"\2"', yaml_src)
-        result = yaml.load(yaml_src, Loader=YamlLoader)
+        result = yaml.load(yaml_src, Loader=CustomYamlSafeLoader)
         # check if result is available, and yaml data is not updated while we were parsing it in async mode
         if result and (not self.parse_yaml_async or self.last_session_info_update == session_info_update):
             session_data['data'] = result[key]
@@ -577,11 +584,10 @@ class IRSDK:
 
 class IBT:
     def __init__(self):
-        self.buffers_length = 0
-
         self._ibt_file = None
         self._shared_mem = None
         self._header = None
+        self._disk_header = None
 
         self.__var_headers = None
         self.__var_headers_dict = None
@@ -589,7 +595,7 @@ class IBT:
         self.__session_info_dict = None
 
     def __getitem__(self, key):
-        return self.get(self.buffers_length - 1, key)
+        return self.get(self._disk_header.session_record_count - 1, key)
 
     @property
     def file_name(self):
@@ -611,7 +617,7 @@ class IBT:
         self._ibt_file = open(ibt_file, 'rb')
         self._shared_mem = mmap.mmap(self._ibt_file.fileno(), 0, access=mmap.ACCESS_READ)
         self._header = Header(self._shared_mem)
-        self.buffers_length = int((self._shared_mem.size() - self._header.var_buf[0].buf_offset) / self._header.buf_len)
+        self._disk_header = DiskSubHeader(self._shared_mem, 112)
 
     def close(self):
         if self._shared_mem:
@@ -620,11 +626,10 @@ class IBT:
         if self._ibt_file:
             self._ibt_file.close()
 
-        self.buffers_length = 0
-
         self._ibt_file = None
         self._shared_mem = None
         self._header = None
+        self._disk_header = None
 
         self.__var_headers = None
         self.__var_headers_dict = None
@@ -634,14 +639,14 @@ class IBT:
     def get(self, index, key):
         if not self._header:
             return None
-        if 0 > index >= self.buffers_length:
+        if 0 > index >= self._disk_header.session_record_count:
             return None
         if key in self._var_headers_dict:
             var_header = self._var_headers_dict[key]
             fmt = VAR_TYPE_MAP[var_header.type] * var_header.count
             var_offset = var_header.offset + self._header.var_buf[0].buf_offset + index * self._header.buf_len
             res = struct.unpack_from(fmt, self._shared_mem, var_offset)
-            return res[0] if var_header.count == 1 else list(res)
+            return list(res) if var_header.count > 1 else res[0]
         return None
 
     def get_all(self, key):
@@ -652,11 +657,11 @@ class IBT:
             fmt = VAR_TYPE_MAP[var_header.type] * var_header.count
             var_offset = var_header.offset + self._header.var_buf[0].buf_offset
             buf_len = self._header.buf_len
-            sigle_or_array = var_header.count == 1
+            is_array = var_header.count > 1
             results = []
-            for i in range(self.buffers_length):
+            for i in range(self._disk_header.session_record_count):
                 res = struct.unpack_from(fmt, self._shared_mem, var_offset + i * buf_len)
-                results.append(res[0] if sigle_or_array else list(res))
+                results.append(list(res) if is_array else res[0])
             return results
         return None
 
@@ -680,6 +685,16 @@ class IBT:
             for var_header in self._var_headers:
                 self.__var_headers_dict[var_header.name] = var_header
         return self.__var_headers_dict
+
+# https://stackoverflow.com/a/37958106/1034242
+class CustomYamlSafeLoader(YamlSafeLoader):
+    @classmethod
+    def remove_implicit_resolver(cls, tag_to_remove):
+        if not 'yaml_implicit_resolvers' in cls.__dict__:
+            cls.yaml_implicit_resolvers = cls.yaml_implicit_resolvers.copy()
+        for first_letter, mappings in cls.yaml_implicit_resolvers.items():
+            cls.yaml_implicit_resolvers[first_letter] = [(tag, regexp) for tag, regexp in mappings if tag != tag_to_remove]
+CustomYamlSafeLoader.remove_implicit_resolver('tag:yaml.org,2002:timestamp')
 
 def main():
     parser = argparse.ArgumentParser()

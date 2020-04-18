@@ -12,19 +12,19 @@ setup(
     url='https://github.com/kutu/pyirsdk',
     py_modules=['irsdk'],
     license='MIT',
-    platforms=['win32', 'win64'],
+    platforms=['win64'],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Environment :: Console',
         'License :: OSI Approved :: MIT License',
         'Operating System :: Microsoft :: Windows',
-        'Programming Language :: Python :: 3.3',
+        'Programming Language :: Python :: 3.7',
         'Topic :: Utilities',
     ],
     entry_points={
         'console_scripts': ['irsdk = irsdk:main'],
     },
     install_requires=[
-        'PyYAML >= 3.11',
+        'PyYAML >= 5.3',
     ],
 )

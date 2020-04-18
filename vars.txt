@@ -7,6 +7,8 @@ CamCameraNumber                   Active camera number,
 CamCameraState                    State of camera system, irsdk_CameraState
 CamCarIdx                         Active camera's focus car index,
 CamGroupNumber                    Active camera group number,
+CarIdxBestLapNum                  Cars best lap number,
+CarIdxBestLapTime                 Cars best lap time, s
 CarIdxClassPosition               Cars class position in race by car index,
 CarIdxEstTime                     Estimated time to reach current location on track, s
 CarIdxF2Time                      Race time behind leader or fastest lap time otherwise, s
@@ -14,7 +16,10 @@ CarIdxGear                        -1=reverse  0=neutral  1..n=current gear by ca
 CarIdxLap                         Laps started by car index,
 CarIdxLapCompleted                Laps completed by car index,
 CarIdxLapDistPct                  Percentage distance around lap by car index, %
+CarIdxLastLapTime                 Cars last lap time, s
 CarIdxOnPitRoad                   On pit road between the cones by car index,
+CarIdxP2P_Count                   Push2Pass count of usage (or remaining in Race),
+CarIdxP2P_Status                  Push2Pass active or not,
 CarIdxPosition                    Cars position in race by car index,
 CarIdxRPM                         Engine rpm by car index, revs/min
 CarIdxSteer                       Steering wheel angle by car index, rad
