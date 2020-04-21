@@ -10,9 +10,9 @@ First thing you want when learning new library - shortest way to see it in actio
 	fullScreen=0
 	```
 
-4. Go to iRacing site, and start test session with any car and with "Centripetal Circuit" (this track loads faster than others)
+4. Go to iRacing website, and start test session with any car and with "Centripetal Circuit" (this track loads faster than others)
 
-5. Start `py -3` (or `ipython3` if installed in step 2.) and type:
+5. Start Python with `py` command (or `ipython` if installed in step 2.) and type:
 	```python
 	>>> import irsdk
 	>>> ir = irsdk.IRSDK()
@@ -22,7 +22,7 @@ First thing you want when learning new library - shortest way to see it in actio
 	<<< 0.0
 	```
 
-Reading from yaml data, you always must check it for existence:
+When reading session data, you always must check it for existence first:
 
 ```python
 >>> if ir['WeekendInfo']:

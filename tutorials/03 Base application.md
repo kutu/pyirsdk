@@ -1,4 +1,4 @@
-In this tutorial, you will learn how to create base of your own iRacing application.
+In this tutorial, you will learn how to create base of your own iRacing application using pyirsdk.
 
 Entry point is at the bottom, at `if __name__ == '__main__':` line.
 
@@ -18,9 +18,9 @@ class State:
 def check_iracing():
     if state.ir_connected and not (ir.is_initialized and ir.is_connected):
         state.ir_connected = False
-        # don't forget to reset all your in State variables
+        # don't forget to reset your State variables
         state.last_car_setup_tick = -1
-        # we are shut down ir library (clear all internal variables)
+        # we are shutting down ir library (clearing all internal variables)
         ir.shutdown()
         print('irsdk disconnected')
     elif not state.ir_connected and ir.startup() and ir.is_initialized and ir.is_connected:
@@ -31,11 +31,12 @@ def check_iracing():
 # and do something useful with it
 def loop():
     # on each tick we freeze buffer with live telemetry
-    # it is optional, useful if you use vars like CarIdxXXX
-    # in this way you will have consistent data from this vars inside one tick
+    # it is optional, but useful if you use vars like CarIdxXXX
+    # this way you will have consistent data from those vars inside one tick
     # because sometimes while you retrieve one CarIdxXXX variable
-    # another one in next line of code can be changed
+    # another one in next line of code could change
     # to the next iracing internal tick_count
+    # and you will get incosistent data
     ir.freeze_var_buffer_latest()
 
     # retrieve live telemetry data
@@ -48,8 +49,8 @@ def loop():
 
     # retrieve CarSetup from session data
     # we also check if CarSetup data has been updated
-    # with ir.get_session_info_update_by_key
-    # but first you need to request data, before check if its updated
+    # with ir.get_session_info_update_by_key(key)
+    # but first you need to request data, before checking if its updated
     car_setup = ir['CarSetup']
     if car_setup:
         car_setup_tick = ir.get_session_info_update_by_key('CarSetup')
@@ -57,10 +58,10 @@ def loop():
             state.last_car_setup_tick = car_setup_tick
             print('car setup update count:', car_setup['UpdateCount'])
             # now you can go to garage, and do some changes with your setup
-            # and that this line will be printed, only when you change something
-            # and not every 1 sec
+            # this line will be printed, only when you change something
+            # and press apply button, but not every 1 sec
     # note about session info data
-    # you should always check if data is available
+    # you should always check if data exists first
     # before do something like ir['WeekendInfo']['TeamRacing']
     # so do like this:
     # if ir['WeekendInfo']:
@@ -70,11 +71,11 @@ def loop():
     # you can send commands to iracing
     # like switch cameras, rewind in replay mode, send chat and pit commands, etc
     # check pyirsdk.py library to see what commands are available
-    # https://github.com/kutu/pyirsdk/blob/master/irsdk.py#L332
+    # https://github.com/kutu/pyirsdk/blob/master/irsdk.py#L134 (class BroadcastMsg)
     # when you run this script, camera will be switched to P1
     # and very first camera in list of cameras in iracing
     # while script is running, change camera by yourself in iracing
-    # and how it changed back every 1 sec
+    # and notice how this code changes it back every 1 sec
     ir.cam_switch_pos(0, 1)
 
 if __name__ == '__main__':
@@ -92,7 +93,7 @@ if __name__ == '__main__':
                 loop()
             # sleep for 1 second
             # maximum you can use is 1/60
-            # cause iracing update data with 60 fps
+            # cause iracing updates data with 60 fps
             time.sleep(1)
     except KeyboardInterrupt:
         # press ctrl+c to exit
