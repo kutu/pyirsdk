@@ -15,7 +15,7 @@ try:
 except ImportError:
     from yaml import SafeLoader as YamlSafeLoader
 
-VERSION = '1.2.5'
+VERSION = '1.2.6'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -208,6 +208,31 @@ class PitSvFlags:
     fuel_fill          = 0x10
     windshield_tearoff = 0x20
     fast_repair        = 0x40
+
+class PitSvStatus:
+    # status
+    none            = 0
+    in_progress     = 1
+    complete        = 2
+    # errors
+    too_far_left    = 100
+    too_far_right   = 101
+    too_far_forward = 102
+    too_far_back    = 103
+    bad_angle       = 104
+    cant_fix_that   = 105
+
+class PaceMode:
+    single_file_start   = 0
+    double_file_start   = 1
+    single_file_restart = 2
+    double_file_restart = 3
+    not_pacing          = 4
+
+class PaceFlags:
+    end_of_line  = 0x01
+    free_pass    = 0x02
+    waved_around = 0x04
 
 class CarLeftRight:
     clear          = 1 # no cars around us.

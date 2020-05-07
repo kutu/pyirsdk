@@ -20,6 +20,9 @@ CarIdxLastLapTime                 Cars last lap time, s
 CarIdxOnPitRoad                   On pit road between the cones by car index,
 CarIdxP2P_Count                   Push2Pass count of usage (or remaining in Race),
 CarIdxP2P_Status                  Push2Pass active or not,
+CarIdxPaceFlags                   Pacing status flags for each car, irsdk_PaceFlags
+CarIdxPaceLine                    What line cars are pacing in  or -1 if not pacing,
+CarIdxPaceRow                     What row cars are pacing in  or -1 if not pacing,
 CarIdxPosition                    Cars position in race by car index,
 CarIdxRPM                         Engine rpm by car index, revs/min
 CarIdxSteer                       Steering wheel angle by car index, rad
@@ -127,6 +130,7 @@ OilPress                          Engine oil pressure, bar
 OilTemp                           Engine oil temperature, C
 OkToReloadTextures                True if it is ok to reload car textures at this time,
 OnPitRoad                         Is the player car on pit road between the cones,
+PaceMode                          Are we pacing or not, irsdk_PaceMode
 Pitch                             Pitch orientation, rad
 PitchRate                         Pitch rate, rad/s
 PitchRate_ST                      Pitch rate at 360 Hz, rad/s
