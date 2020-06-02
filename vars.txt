@@ -54,6 +54,8 @@ FastRepairAvailable               How many fast repairs left  255 is unlimited,
 FastRepairUsed                    How many fast repairs used so far,
 FogLevel                          Fog level, %
 FrameRate                         Average frames per second, fps
+FrontTireSetsAvailable            How many front tire sets are remaining  255 is unlimited,
+FrontTireSetsUsed                 How many front tire sets used so far,
 FuelLevel                         Liters of fuel remaining, l
 FuelLevelPct                      Percent fuel remaining, %
 FuelPress                         Engine fuel pressure, bar
@@ -95,6 +97,8 @@ LapLastLapTime                    Players last lap time, s
 LapLastNLapTime                   Player last N average lap time, s
 LatAccel                          Lateral acceleration (including gravity), m/s^2
 LatAccel_ST                       Lateral acceleration (including gravity) at 360 Hz, m/s^2
+LeftTireSetsAvailable             How many left tire sets are remaining  255 is unlimited,
+LeftTireSetsUsed                  How many left tire sets used so far,
 LFbrakeLinePress                  LF brake line pressure, bar
 LFcoldPressure                    LF tire cold pressure  as set in the garage, kPa
 LFshockDefl                       LF shock deflection, m
@@ -104,6 +108,8 @@ LFshockVel_ST                     LF shock velocity at 360 Hz, m/s
 LFtempCL                          LF tire left carcass temperature, C
 LFtempCM                          LF tire middle carcass temperature, C
 LFtempCR                          LF tire right carcass temperature, C
+LFTiresAvailable                  How many left front tires are remaining  255 is unlimited,
+LFTiresUsed                       How many left front tires used so far,
 LFwearL                           LF tire left percent tread remaining, %
 LFwearM                           LF tire middle percent tread remaining, %
 LFwearR                           LF tire right percent tread remaining, %
@@ -119,6 +125,8 @@ LRshockVel_ST                     LR shock velocity at 360 Hz, m/s
 LRtempCL                          LR tire left carcass temperature, C
 LRtempCM                          LR tire middle carcass temperature, C
 LRtempCR                          LR tire right carcass temperature, C
+LRTiresAvailable                  How many left rear tires are remaining  255 is unlimited,
+LRTiresUsed                       How many left rear tires used so far,
 LRwearL                           LR tire left percent tread remaining, %
 LRwearM                           LR tire middle percent tread remaining, %
 LRwearR                           LR tire right percent tread remaining, %
@@ -146,6 +154,7 @@ PitSvRFP                          Pit service right front tire pressure, kPa
 PitSvRRP                          Pit service right rear tire pressure, kPa
 PlayerCarClassPosition            Players class position in race,
 PlayerCarDriverIncidentCount      Teams current drivers incident count for this session,
+PlayerCarDryTireSetLimit          Players dry tire set limit,
 PlayerCarIdx                      Players carIdx,
 PlayerCarInPitStall               Players car is properly in there pitstall,
 PlayerCarMyIncidentCount          Players own incident count for this session,
@@ -162,6 +171,8 @@ RaceLaps                          Laps completed in race,
 RadioTransmitCarIdx               The car index of the current person speaking on the radio,
 RadioTransmitFrequencyIdx         The frequency index of the current person speaking on the radio,
 RadioTransmitRadioIdx             The radio index of the current person speaking on the radio,
+RearTireSetsAvailable             How many rear tire sets are remaining  255 is unlimited,
+RearTireSetsUsed                  How many rear tire sets used so far,
 RelativeHumidity                  Relative Humidity, %
 ReplayFrameNum                    Integer replay frame number (60 per second),
 ReplayFrameNumEnd                 Integer replay frame number from end of tape,
@@ -178,9 +189,13 @@ RFshockVel_ST                     RF shock velocity at 360 Hz, m/s
 RFtempCL                          RF tire left carcass temperature, C
 RFtempCM                          RF tire middle carcass temperature, C
 RFtempCR                          RF tire right carcass temperature, C
+RFTiresAvailable                  How many right front tires are remaining  255 is unlimited,
+RFTiresUsed                       How many right front tires used so far,
 RFwearL                           RF tire left percent tread remaining, %
 RFwearM                           RF tire middle percent tread remaining, %
 RFwearR                           RF tire right percent tread remaining, %
+RightTireSetsAvailable            How many right tire sets are remaining  255 is unlimited,
+RightTireSetsUsed                 How many right tire sets used so far,
 Roll                              Roll orientation, rad
 RollRate                          Roll rate, rad/s
 RollRate_ST                       Roll rate at 360 Hz, rad/s
@@ -194,6 +209,8 @@ RRshockVel_ST                     RR shock velocity at 360 Hz, m/s
 RRtempCL                          RR tire left carcass temperature, C
 RRtempCM                          RR tire middle carcass temperature, C
 RRtempCR                          RR tire right carcass temperature, C
+RRTiresAvailable                  How many right rear tires are remaining  255 is unlimited,
+RRTiresUsed                       How many right rear tires used so far,
 RRwearL                           RR tire left percent tread remaining, %
 RRwearM                           RR tire middle percent tread remaining, %
 RRwearR                           RR tire right percent tread remaining, %
@@ -227,6 +244,8 @@ TireLF_RumblePitch                Players LF Tire Sound rumblestrip pitch, Hz
 TireLR_RumblePitch                Players LR Tire Sound rumblestrip pitch, Hz
 TireRF_RumblePitch                Players RF Tire Sound rumblestrip pitch, Hz
 TireRR_RumblePitch                Players RR Tire Sound rumblestrip pitch, Hz
+TireSetsAvailable                 How many tire sets are remaining  255 is unlimited,
+TireSetsUsed                      How many tire sets used so far,
 TrackTemp                         Deprecated  set to TrackTempCrew, C
 TrackTempCrew                     Temperature of track measured by crew around track, C
 VelocityX                         X velocity, m/s
