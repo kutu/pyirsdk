@@ -393,6 +393,11 @@ class IRSDK:
                     f.write(self._shared_mem)
             self._header = Header(self._shared_mem)
             self.is_initialized = self._header.version >= 1 and len(self._header.var_buf) > 0
+            if not self.is_initialized:
+                # iracing telemetry not yet ready, close
+                # it to not keep lock on the file
+                self._shared_mem.close()
+                self._shared_mem = None
 
         return self.is_initialized
 
