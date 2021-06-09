@@ -19,6 +19,7 @@ VERSION = '1.2.6'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
+DATAVALIDEVENTNAME = 'Local\\IRSDKDataValidEvent'
 MEMMAPFILE = 'Local\\IRSDKMemMapFileName'
 MEMMAPFILESIZE = 1164 * 1024
 BROADCASTMSGNAME = 'IRSDK_BROADCASTMSG'
@@ -284,26 +285,34 @@ class Header(IRSDKStruct):
         super().__init__(*args, **kwargs)
 
         self.var_buf = [
-            VarBuffer(self._shared_mem, 48 + i * 16)
+            VarBuffer(self._shared_mem, 48 + i * 16, buf_len=self.buf_len)
             for i in range(self.num_buf)
         ]
 
 class VarBuffer(IRSDKStruct):
     tick_count = IRSDKStruct.property_value(0, 'i')
-    buf_offset = IRSDKStruct.property_value(4, 'i')
+    _buf_offset = IRSDKStruct.property_value(4, 'i')
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, buf_len, **kwargs):
         super().__init__(*args, **kwargs)
-        self._freezed_memory = None
+        self.is_memory_frozen = False
+        self._frozen_memory = None
+        self._buf_len = buf_len
 
     def freeze(self):
-        self._freezed_memory = self._shared_mem[:]
+        self._frozen_memory = self._shared_mem[self._buf_offset : self._buf_offset + self._buf_len]
+        self.is_memory_frozen = True
 
     def unfreeze(self):
-        self._freezed_memory = None
+        self._frozen_memory = None
+        self.is_memory_frozen = False
 
     def get_memory(self):
-        return self._freezed_memory or self._shared_mem
+        return self._frozen_memory if self.is_memory_frozen else self._shared_mem
+
+    @property
+    def buf_offset(self):
+        return 0 if self.is_memory_frozen else self._buf_offset
 
 class VarHeader(IRSDKStruct):
     type = IRSDKStruct.property_value(0, 'i')
@@ -329,6 +338,7 @@ class IRSDK:
 
         self._shared_mem = None
         self._header = None
+        self._dataValidEvent = None
 
         self.__var_headers = None
         self.__var_headers_dict = None
@@ -363,6 +373,7 @@ class IRSDK:
             if self.__workaround_connected_state == 2 and self['SessionNum'] is not None:
                 self.__workaround_connected_state = 3
         return self._header is not None and \
+            (self.__is_using_test_file or self._dataValidEvent) and \
             (self._header.status == StatusField.status_connected or self.__workaround_connected_state == 3)
 
     @property
@@ -387,6 +398,11 @@ class IRSDK:
             else:
                 self._shared_mem = mmap.mmap(0, MEMMAPFILESIZE, MEMMAPFILE, access=mmap.ACCESS_READ)
 
+        if not self._dataValidEvent and not self.__is_using_test_file:
+            self._dataValidEvent = ctypes.windll.kernel32.OpenEventW(0x00100000, False, DATAVALIDEVENTNAME)
+        if not self._wait_valid_data_event():
+            return False
+
         if self._shared_mem:
             if dump_to:
                 with open(dump_to, 'wb') as f:
@@ -403,6 +419,7 @@ class IRSDK:
             self._shared_mem.close()
             self._shared_mem = None
         self._header = None
+        self._dataValidEvent = None
         self.__var_headers = None
         self.__var_headers_dict = None
         self.__var_headers_names = None
@@ -475,11 +492,11 @@ class IRSDK:
 
     @property
     def _var_buffer_latest(self):
-        if not self.is_initialized and not self.startup():
-            return None
-        if self.__var_buffer_latest:
-            return self.__var_buffer_latest
-        return sorted(self._header.var_buf, key=lambda v: v.tick_count)[-1]
+        # return 2nd most recent var buffer
+        # because it might be a situation (with most recent var buffer)
+        # that half of var buffer written with new data
+        # and other half still old
+        return sorted(self._header.var_buf, key=lambda v: v.tick_count, reverse=True)[1]
 
     @property
     def _var_headers(self):
@@ -500,7 +517,8 @@ class IRSDK:
 
     def freeze_var_buffer_latest(self):
         self.unfreeze_var_buffer_latest()
-        self.__var_buffer_latest = self._var_buffer_latest
+        self._wait_valid_data_event()
+        self.__var_buffer_latest = sorted(self._header.var_buf, key=lambda v: v.tick_count, reverse=True)[0]
         self.__var_buffer_latest.freeze()
 
     def unfreeze_var_buffer_latest(self):
@@ -512,6 +530,12 @@ class IRSDK:
         if key in self.__session_info_dict:
             return self.__session_info_dict[key]['update']
         return None
+
+    def _wait_valid_data_event(self):
+        if self._dataValidEvent is not None:
+            return ctypes.windll.kernel32.WaitForSingleObject(self._dataValidEvent, 32) == 0 if self._dataValidEvent else False
+        else:
+            return True
 
     def _get_session_info(self, key):
         if self.last_session_info_update < self._header.session_info_update:
