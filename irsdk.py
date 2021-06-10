@@ -15,7 +15,7 @@ try:
 except ImportError:
     from yaml import SafeLoader as YamlSafeLoader
 
-VERSION = '1.2.6'
+VERSION = '1.3.0'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -39,6 +39,7 @@ class EngineWarnings:
     engine_stalled        = 0x08
     pit_speed_limiter     = 0x10
     rev_limiter_active    = 0x20
+    oil_temp_warning      = 0x40
 
 class Flags:
     # global flags
@@ -146,6 +147,7 @@ class BroadcastMsg:
     telem_command              = 10 # irsdk_TelemCommandMode, unused, unused
     ffb_command                = 11 # irsdk_FFBCommandMode, value (float, high, low)
     replay_search_session_time = 12 # sessionNum, sessionTimeMS (high, low)
+    video_capture              = 13 # irsdk_VideoCaptureMode, unused, unused
 
 class ChatCommandMode:
     macro      = 0 # pass in a number from 1-15 representing the chat macro to launch
@@ -246,6 +248,13 @@ class CarLeftRight:
 class FFBCommandMode: # You can call this any time
     ffb_command_max_force = 0 # Set the maximum force when mapping steering torque force to direct input units (float in Nm)
 
+class VideoCaptureMode:
+    trigger_screen_shot   = 0 # save a screenshot to disk
+    start_video_capture   = 1 # start capturing video
+    end_video_capture     = 2 # stop capturing video
+    toggle_video_capture  = 3 # toggle video capture on/off
+    show_video_timer      = 4 # show video timer in upper left corner of display
+    hide_video_timer      = 5 # hide video timer
 
 
 class IRSDKStruct:
@@ -477,11 +486,14 @@ class IRSDK:
     def telem_command(self, telem_command_mode=TelemCommandMode.stop):
         return self._broadcast_msg(BroadcastMsg.telem_command, telem_command_mode)
 
-    def ffb_command(self, ffb_command_mode=FFBCommandMode.ffb_command_max_force, value=0.0):
-        return self._broadcast_msg(BroadcastMsg.ffb_command, ffb_command_mode, float(value))
+    def ffb_command(self, ffb_command_mode=FFBCommandMode.ffb_command_max_force, value=0):
+        return self._broadcast_msg(BroadcastMsg.ffb_command, ffb_command_mode, int(value * 65536))
 
     def replay_search_session_time(self, session_num=0, session_time_ms=0):
         return self._broadcast_msg(BroadcastMsg.replay_search_session_time, session_num, session_time_ms)
+
+    def video_capture(self, video_capture_mode=VideoCaptureMode.trigger_screen_shot):
+        return self._broadcast_msg(BroadcastMsg.video_capture, video_capture_mode)
 
     def _check_sim_status(self):
         try:
@@ -615,8 +627,6 @@ class IRSDK:
         return self.__broadcast_msg_id
 
     def _broadcast_msg(self, broadcast_type=0, var1=0, var2=0, var3=0):
-        if isinstance(var2, float):
-            var2 = int(var2 * 65536.0)
         return ctypes.windll.user32.SendNotifyMessageW(0xFFFF, self._broadcast_msg_id,
             broadcast_type | var1 << 16, var2 | var3 << 16)
 

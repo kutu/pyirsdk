@@ -2,6 +2,7 @@ AirDensity                        Density of air at start/finish line, kg/m^3
 AirPressure                       Pressure of air at start/finish line, Hg
 AirTemp                           Temperature of air at start/finish line, C
 Brake                             0=brake released to 1=max pedal force, %
+BrakeABSactive                    true if abs is currently reducing brake force pressure,
 BrakeRaw                          Raw brake input 0=brake released to 1=max pedal force, %
 CamCameraNumber                   Active camera number,
 CamCameraState                    State of camera system, irsdk_CameraState
@@ -9,9 +10,11 @@ CamCarIdx                         Active camera's focus car index,
 CamGroupNumber                    Active camera group number,
 CarIdxBestLapNum                  Cars best lap number,
 CarIdxBestLapTime                 Cars best lap time, s
+CarIdxClass                       Cars class id by car index,
 CarIdxClassPosition               Cars class position in race by car index,
 CarIdxEstTime                     Estimated time to reach current location on track, s
 CarIdxF2Time                      Race time behind leader or fastest lap time otherwise, s
+CarIdxFastRepairsUsed             How many fast repairs each car has used,
 CarIdxGear                        -1=reverse  0=neutral  1..n=current gear by car index,
 CarIdxLap                         Laps started by car index,
 CarIdxLapCompleted                Laps completed by car index,
@@ -32,10 +35,17 @@ CarIdxTireCompound                Cars current tire compound,
 CarIdxTrackSurface                Track surface type by car index, irsdk_TrkLoc
 CarIdxTrackSurfaceMaterial        Track surface material type by car index, irsdk_TrkSurf
 CarLeftRight                      Notify if car is to the left or right of driver, irsdk_CarLeftRight
+ChanAvgLatency                    Communications average latency, s
+ChanClockSkew                     Communications server clock skew, s
+ChanLatency                       Communications latency, s
+ChanPartnerQuality                Partner communications quality, %
+ChanQuality                       Communications quality, %
 Clutch                            0=disengaged to 1=fully engaged, %
 CpuUsageBG                        Percent of available tim bg thread took with a 1 sec avg, %
+CpuUsageFG                        Percent of available tim fg thread took with a 1 sec avg, %
 DCDriversSoFar                    Number of team drivers who have run a stint,
 DCLapStatus                       Status of driver change lap requirements,
+dcPitSpeedLimiterToggle           In car traction control active,
 dcStarter                         In car trigger car starter,
 DisplayUnits                      Default units for the user interface 0 = english 1 = metric,
 dpFastRepair                      Pitstop fast repair set,
@@ -64,6 +74,7 @@ FuelLevelPct                      Percent fuel remaining, %
 FuelPress                         Engine fuel pressure, bar
 FuelUsePerHour                    Engine fuel used instantaneous, kg/h
 Gear                              -1=reverse  0=neutral  1..n=current gear,
+GpuUsage                          Percent of available tim gpu took with a 1 sec avg, %
 HandbrakeRaw                      Raw handbrake input 0=handbrake released to 1=max force, %
 IsDiskLoggingActive               0=disk based telemetry file not being written  1=being written,
 IsDiskLoggingEnabled              0=disk based telemetry turned off  1=turned on,
@@ -136,6 +147,7 @@ LRwearR                           LR tire right percent tread remaining, %
 ManifoldPress                     Engine manifold pressure, bar
 ManualBoost                       Hybrid manual boost state,
 ManualNoBoost                     Hybrid manual no boost state,
+MemPageFaultSec                   Memory page faults per second,
 OilLevel                          Engine oil level, l
 OilPress                          Engine oil pressure, bar
 OilTemp                           Engine oil temperature, C
@@ -156,6 +168,7 @@ PitSvLRP                          Pit service left rear tire pressure, kPa
 PitSvRFP                          Pit service right front tire pressure, kPa
 PitSvRRP                          Pit service right rear tire pressure, kPa
 PitSvTireCompound                 Pit service pending tire compound,
+PlayerCarClass                    Player car class id,
 PlayerCarClassPosition            Players class position in race,
 PlayerCarDriverIncidentCount      Teams current drivers incident count for this session,
 PlayerCarDryTireSetLimit          Players dry tire set limit,
@@ -168,6 +181,7 @@ PlayerCarPowerAdjust              Players power adjust, %
 PlayerCarTeamIncidentCount        Players team incident count for this session,
 PlayerCarTowTime                  Players car is being towed if time is greater than zero, s
 PlayerCarWeightPenalty            Players weight penalty, kg
+PlayerFastRepairsUsed             Players car number of fast repairs used,
 PlayerTireCompound                Players car current tire compound,
 PlayerTrackSurface                Players car track surface type, irsdk_TrkLoc
 PlayerTrackSurfaceMaterial        Players car track surface material type, irsdk_TrkSurf
@@ -222,12 +236,14 @@ RRwearR                           RR tire right percent tread remaining, %
 SessionFlags                      Session flags, irsdk_Flags
 SessionLapsRemain                 Old laps left till session ends use SessionLapsRemainEx,
 SessionLapsRemainEx               New improved laps left till session ends,
+SessionLapsTotal                  Total number of laps in session,
 SessionNum                        Session number,
 SessionState                      Session state, irsdk_SessionState
 SessionTick                       Current update number,
 SessionTime                       Seconds since session start, s
 SessionTimeOfDay                  Time of day in seconds, s
 SessionTimeRemain                 Seconds left till session ends, s
+SessionTimeTotal                  Total number of seconds in session, s
 SessionUniqueID                   Session ID,
 ShiftGrindRPM                     RPM of shifter grinding noise, RPM
 ShiftIndicatorPct                 DEPRECATED use DriverCarSLBlinkRPM instead, %
@@ -262,6 +278,8 @@ VelocityZ                         Z velocity, m/s
 VelocityZ_ST                      Z velocity, m/s at 360 Hz
 VertAccel                         Vertical acceleration (including gravity), m/s^2
 VertAccel_ST                      Vertical acceleration (including gravity) at 360 Hz, m/s^2
+VidCapActive                      True if video currently being captured,
+VidCapEnabled                     True if video capture system is enabled,
 Voltage                           Engine voltage, V
 WaterLevel                        Engine coolant level, l
 WaterTemp                         Engine coolant temp, C
