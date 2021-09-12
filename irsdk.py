@@ -15,7 +15,7 @@ try:
 except ImportError:
     from yaml import SafeLoader as YamlSafeLoader
 
-VERSION = '1.3.0'
+VERSION = '1.3.1'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -396,7 +396,12 @@ class IRSDK:
         return self.__var_headers_names
 
     def startup(self, test_file=None, dump_to=None):
-        if test_file is None and not self._check_sim_status():
+        if test_file is None:
+            if not self._check_sim_status():
+                return False
+            self._dataValidEvent = ctypes.windll.kernel32.OpenEventW(0x00100000, False, DATAVALIDEVENTNAME)
+        if not self._wait_valid_data_event():
+            self._dataValidEvent = None
             return False
 
         if self._shared_mem is None:
@@ -406,11 +411,6 @@ class IRSDK:
                 self.__is_using_test_file = True
             else:
                 self._shared_mem = mmap.mmap(0, MEMMAPFILESIZE, MEMMAPFILE, access=mmap.ACCESS_READ)
-
-        if not self._dataValidEvent and not self.__is_using_test_file:
-            self._dataValidEvent = ctypes.windll.kernel32.OpenEventW(0x00100000, False, DATAVALIDEVENTNAME)
-        if not self._wait_valid_data_event():
-            return False
 
         if self._shared_mem:
             if dump_to:
