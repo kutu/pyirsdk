@@ -234,10 +234,12 @@ RRwearL                           RR tire left percent tread remaining, %
 RRwearM                           RR tire middle percent tread remaining, %
 RRwearR                           RR tire right percent tread remaining, %
 SessionFlags                      Session flags, irsdk_Flags
+SessionJokerLapsRemain            Joker laps remaining to be taken,
 SessionLapsRemain                 Old laps left till session ends use SessionLapsRemainEx,
 SessionLapsRemainEx               New improved laps left till session ends,
 SessionLapsTotal                  Total number of laps in session,
 SessionNum                        Session number,
+SessionOnJokerLap                 Player is currently completing a joker lap,
 SessionState                      Session state, irsdk_SessionState
 SessionTick                       Current update number,
 SessionTime                       Seconds since session start, s

@@ -15,7 +15,7 @@ try:
 except ImportError:
     from yaml import SafeLoader as YamlSafeLoader
 
-VERSION = '1.3.1'
+VERSION = '1.3.2'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -609,7 +609,7 @@ class IRSDK:
         if key == 'DriverInfo':
             def name_replace(m):
                 return m.group(1) + '"%s"' % re.sub(r'(["\\])', r'\\\1', m.group(2))
-            yaml_src = re.sub(r'((?:UserName|TeamName|AbbrevName|Initials): )(.*)', name_replace, yaml_src)
+            yaml_src = re.sub(r'((?:DriverSetupName|UserName|TeamName|AbbrevName|Initials): )(.*)', name_replace, yaml_src)
         yaml_src = re.sub(r'(\w+: )(,.*)', r'\1"\2"', yaml_src)
         result = yaml.load(yaml_src, Loader=CustomYamlSafeLoader)
         # check if result is available, and yaml data is not updated while we were parsing it in async mode
