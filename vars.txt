@@ -30,6 +30,7 @@ CarIdxPosition                    Cars position in race by car index,
 CarIdxQualTireCompound            Cars Qual tire compound,
 CarIdxQualTireCompoundLocked      Cars Qual tire compound is locked-in,
 CarIdxRPM                         Engine rpm by car index, revs/min
+CarIdxSessionFlags                Session flags for each player, irsdk_Flags
 CarIdxSteer                       Steering wheel angle by car index, rad
 CarIdxTireCompound                Cars current tire compound,
 CarIdxTrackSurface                Track surface type by car index, irsdk_TrkLoc
