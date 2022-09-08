@@ -50,7 +50,7 @@ dcPitSpeedLimiterToggle           In car traction control active,
 dcStarter                         In car trigger car starter,
 DisplayUnits                      Default units for the user interface 0 = english 1 = metric,
 dpFastRepair                      Pitstop fast repair set,
-dpFuelAddKg                       Pitstop fuel add ammount, kg
+dpFuelAddKg                       Pitstop fuel add amount, kg
 dpFuelFill                        Pitstop fuel fill flag,
 dpLFTireChange                    Pitstop lf tire change request,
 dpLFTireColdPress                 Pitstop lf tire cold pressure adjustment, Pa
@@ -62,6 +62,7 @@ dpRRTireChange                    Pitstop rr tire change request,
 dpRRTireColdPress                 Pitstop rr cold tire pressure adjustment, Pa
 dpWindshieldTearoff               Pitstop windshield tearoff,
 DriverMarker                      Driver activated flag,
+Engine0_RPM                       Engine0Engine rpm, revs/min
 EngineWarnings                    Bitfield for warning lights, irsdk_EngineWarnings
 EnterExitReset                    Indicate action the reset key will take 0 enter 1 exit 2 reset,
 FastRepairAvailable               How many fast repairs left  255 is unlimited,
@@ -149,6 +150,7 @@ ManifoldPress                     Engine manifold pressure, bar
 ManualBoost                       Hybrid manual boost state,
 ManualNoBoost                     Hybrid manual no boost state,
 MemPageFaultSec                   Memory page faults per second,
+MemSoftPageFaultSec               Memory soft page faults per second,
 OilLevel                          Engine oil level, l
 OilPress                          Engine oil pressure, bar
 OilTemp                           Engine oil temperature, C
@@ -163,7 +165,7 @@ PitRepairLeft                     Time left for mandatory pit repairs if repairs
 PitsOpen                          True if pit stop is allowed for the current player,
 PitstopActive                     Is the player getting pit stop service,
 PitSvFlags                        Bitfield of pit service checkboxes, irsdk_PitSvFlags
-PitSvFuel                         Pit service fuel add amount, l
+PitSvFuel                         Pit service fuel add amount, l or kWh
 PitSvLFP                          Pit service left front tire pressure, kPa
 PitSvLRP                          Pit service left rear tire pressure, kPa
 PitSvRFP                          Pit service right front tire pressure, kPa
@@ -252,6 +254,8 @@ ShiftGrindRPM                     RPM of shifter grinding noise, RPM
 ShiftIndicatorPct                 DEPRECATED use DriverCarSLBlinkRPM instead, %
 ShiftPowerPct                     Friction torque applied to gears when shifting or grinding, %
 Skies                             Skies (0=clear/1=p cloudy/2=m cloudy/3=overcast),
+SolarAltitude                     Sun angle above horizon in radians, rad
+SolarAzimuth                      Sun angle clockwise from north in radians, rad
 Speed                             GPS vehicle speed, m/s
 SteeringWheelAngle                Steering wheel angle, rad
 SteeringWheelAngleMax             Steering wheel max angle, rad
