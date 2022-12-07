@@ -272,6 +272,13 @@ class IRSDKStruct:
         self._shared_mem = shared_mem
         self._offset = offset
 
+    def __repr__(self):
+        return f'''<{self.__class__.__module__}.{self.__class__.__name__} {', '.join(
+                f'{k}={getattr(self, k)!r}'
+                for k, p in vars(self.__class__).items()
+                if not k.startswith('_') and isinstance(p, property)
+            )}>'''
+
     def get(self, offset, struct_type):
         return struct_type.unpack_from(self._shared_mem, self._offset + offset)[0]
 
@@ -347,7 +354,7 @@ class IRSDK:
 
         self._shared_mem = None
         self._header = None
-        self._dataValidEvent = None
+        self._data_valid_event = None
 
         self.__var_headers = None
         self.__var_headers_dict = None
@@ -382,7 +389,7 @@ class IRSDK:
             if self.__workaround_connected_state == 2 and self['SessionNum'] is not None:
                 self.__workaround_connected_state = 3
         return self._header is not None and \
-            (self.__is_using_test_file or self._dataValidEvent) and \
+            (self.__is_using_test_file or self._data_valid_event) and \
             (self._header.status == StatusField.status_connected or self.__workaround_connected_state == 3)
 
     @property
@@ -399,9 +406,9 @@ class IRSDK:
         if test_file is None:
             if not self._check_sim_status():
                 return False
-            self._dataValidEvent = ctypes.windll.kernel32.OpenEventW(0x00100000, False, DATAVALIDEVENTNAME)
+            self._data_valid_event = ctypes.windll.kernel32.OpenEventW(0x00100000, False, DATAVALIDEVENTNAME)
         if not self._wait_valid_data_event():
-            self._dataValidEvent = None
+            self._data_valid_event = None
             return False
 
         if self._shared_mem is None:
@@ -428,7 +435,7 @@ class IRSDK:
             self._shared_mem.close()
             self._shared_mem = None
         self._header = None
-        self._dataValidEvent = None
+        self._data_valid_event = None
         self.__var_headers = None
         self.__var_headers_dict = None
         self.__var_headers_names = None
@@ -544,8 +551,8 @@ class IRSDK:
         return None
 
     def _wait_valid_data_event(self):
-        if self._dataValidEvent is not None:
-            return ctypes.windll.kernel32.WaitForSingleObject(self._dataValidEvent, 32) == 0 if self._dataValidEvent else False
+        if self._data_valid_event is not None:
+            return ctypes.windll.kernel32.WaitForSingleObject(self._data_valid_event, 32) == 0 if self._data_valid_event else False
         else:
             return True
 
