@@ -42,6 +42,7 @@ ChanLatency                       Communications latency, s
 ChanPartnerQuality                Partner communications quality, %
 ChanQuality                       Communications quality, %
 Clutch                            0=disengaged to 1=fully engaged, %
+ClutchRaw                         Raw clutch input 0=disengaged to 1=fully engaged, %
 CpuUsageBG                        Percent of available tim bg thread took with a 1 sec avg, %
 CpuUsageFG                        Percent of available tim fg thread took with a 1 sec avg, %
 DCDriversSoFar                    Number of team drivers who have run a stint,
