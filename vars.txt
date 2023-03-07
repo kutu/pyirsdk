@@ -81,6 +81,7 @@ GpuUsage                          Percent of available tim gpu took with a 1 sec
 HandbrakeRaw                      Raw handbrake input 0=handbrake released to 1=max force, %
 IsDiskLoggingActive               0=disk based telemetry file not being written  1=being written,
 IsDiskLoggingEnabled              0=disk based telemetry turned off  1=turned on,
+IsGarageVisible                   1=Garage screen is visible,
 IsInGarage                        1=Car in garage physics running,
 IsOnTrack                         1=Car on track physics running with player in car,
 IsOnTrackCar                      1=Car on track physics running,
