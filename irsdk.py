@@ -15,7 +15,7 @@ try:
 except ImportError:
     from yaml import SafeLoader as YamlSafeLoader
 
-VERSION = '1.3.2'
+VERSION = '1.3.3'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -362,7 +362,7 @@ class IRSDK:
         self.__var_buffer_latest = None
         self.__session_info_dict = {}
         self.__broadcast_msg_id = None
-        self.__is_using_test_file = False
+        self.__test_file = None
         self.__workaround_connected_state = 0
 
     def __getitem__(self, key):
@@ -384,12 +384,12 @@ class IRSDK:
                 self.__workaround_connected_state = 0
             if self.__workaround_connected_state == 0 and self._header.status != StatusField.status_connected:
                 self.__workaround_connected_state = 1
-            if self.__workaround_connected_state == 1 and (self['SessionNum'] is None or self.__is_using_test_file):
+            if self.__workaround_connected_state == 1 and (self['SessionNum'] is None or self.__test_file):
                 self.__workaround_connected_state = 2
             if self.__workaround_connected_state == 2 and self['SessionNum'] is not None:
                 self.__workaround_connected_state = 3
         return self._header is not None and \
-            (self.__is_using_test_file or self._data_valid_event) and \
+            (self.__test_file or self._data_valid_event) and \
             (self._header.status == StatusField.status_connected or self.__workaround_connected_state == 3)
 
     @property
@@ -413,9 +413,8 @@ class IRSDK:
 
         if self._shared_mem is None:
             if test_file:
-                f = open(test_file, 'rb')
-                self._shared_mem = mmap.mmap(f.fileno(), 0, access=mmap.ACCESS_READ)
-                self.__is_using_test_file = True
+                self.__test_file = open(test_file, 'rb')
+                self._shared_mem = mmap.mmap(self.__test_file.fileno(), 0, access=mmap.ACCESS_READ)
             else:
                 self._shared_mem = mmap.mmap(0, MEMMAPFILESIZE, MEMMAPFILE, access=mmap.ACCESS_READ)
 
@@ -442,6 +441,9 @@ class IRSDK:
         self.__var_buffer_latest = None
         self.__session_info_dict = {}
         self.__broadcast_msg_id = None
+        if self.__test_file:
+            self.__test_file.close()
+            self.__test_file = None
 
     def parse_to(self, to_file):
         if not self.is_initialized:
