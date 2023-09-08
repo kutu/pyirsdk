@@ -265,6 +265,7 @@ SteeringWheelAngleMax             Steering wheel max angle, rad
 SteeringWheelLimiter              Force feedback limiter strength limits impacts and oscillation, %
 SteeringWheelMaxForceNm           Value of strength or max force slider in Nm for FFB, N*m
 SteeringWheelPctDamper            Force feedback % max damping, %
+SteeringWheelPctIntensity         Force feedback % max intensity, %
 SteeringWheelPctSmoothing         Force feedback % max smoothing, %
 SteeringWheelPctTorque            Force feedback % max torque on steering shaft unsigned, %
 SteeringWheelPctTorqueSign        Force feedback % max torque on steering shaft signed, %
