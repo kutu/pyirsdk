@@ -1,5 +1,5 @@
 AirDensity                        Density of air at start/finish line, kg/m^3
-AirPressure                       Pressure of air at start/finish line, Hg
+AirPressure                       Pressure of air at start/finish line, Pa
 AirTemp                           Temperature of air at start/finish line, C
 Brake                             0=brake released to 1=max pedal force, %
 BrakeABSactive                    true if abs is currently reducing brake force pressure,
@@ -52,6 +52,8 @@ dcStarter                         In car trigger car starter,
 DisplayUnits                      Default units for the user interface 0 = english 1 = metric,
 dpFastRepair                      Pitstop fast repair set,
 dpFuelAddKg                       Pitstop fuel add amount, kg
+dpFuelAutoFillActive              Pitstop auto fill fuel next stop flag,
+dpFuelAutoFillEnabled             Pitstop auto fill fuel system enabled,
 dpFuelFill                        Pitstop fuel fill flag,
 dpLFTireChange                    Pitstop lf tire change request,
 dpLFTireColdPress                 Pitstop lf tire cold pressure adjustment, Pa
@@ -68,7 +70,7 @@ EngineWarnings                    Bitfield for warning lights, irsdk_EngineWarni
 EnterExitReset                    Indicate action the reset key will take 0 enter 1 exit 2 reset,
 FastRepairAvailable               How many fast repairs left  255 is unlimited,
 FastRepairUsed                    How many fast repairs used so far,
-FogLevel                          Fog level, %
+FogLevel                          Fog level at start/finish line, %
 FrameRate                         Average frames per second, fps
 FrontTireSetsAvailable            How many front tire sets are remaining  255 is unlimited,
 FrontTireSetsUsed                 How many front tire sets used so far,
@@ -178,11 +180,15 @@ PlayerCarClassPosition            Players class position in race,
 PlayerCarDriverIncidentCount      Teams current drivers incident count for this session,
 PlayerCarDryTireSetLimit          Players dry tire set limit,
 PlayerCarIdx                      Players carIdx,
-PlayerCarInPitStall               Players car is properly in there pitstall,
+PlayerCarInPitStall               Players car is properly in their pitstall,
 PlayerCarMyIncidentCount          Players own incident count for this session,
 PlayerCarPitSvStatus              Players car pit service status bits, irsdk_PitSvStatus
 PlayerCarPosition                 Players position in race,
 PlayerCarPowerAdjust              Players power adjust, %
+PlayerCarSLBlinkRPM               Shift light blink rpm, revs/min
+PlayerCarSLFirstRPM               Shift light first light rpm, revs/min
+PlayerCarSLLastRPM                Shift light last light rpm, revs/min
+PlayerCarSLShiftRPM               Shift light shift rpm, revs/min
 PlayerCarTeamIncidentCount        Players team incident count for this session,
 PlayerCarTowTime                  Players car is being towed if time is greater than zero, s
 PlayerCarWeightPenalty            Players weight penalty, kg
@@ -190,6 +196,7 @@ PlayerFastRepairsUsed             Players car number of fast repairs used,
 PlayerTireCompound                Players car current tire compound,
 PlayerTrackSurface                Players car track surface type, irsdk_TrkLoc
 PlayerTrackSurfaceMaterial        Players car track surface material type, irsdk_TrkSurf
+Precipitation                     Precipitation at start/finish line, %
 PushToPass                        Push to pass button state,
 PushToTalk                        Push to talk button state,
 RaceLaps                          Laps completed in race,
@@ -198,7 +205,7 @@ RadioTransmitFrequencyIdx         The frequency index of the current person spea
 RadioTransmitRadioIdx             The radio index of the current person speaking on the radio,
 RearTireSetsAvailable             How many rear tire sets are remaining  255 is unlimited,
 RearTireSetsUsed                  How many rear tire sets used so far,
-RelativeHumidity                  Relative Humidity, %
+RelativeHumidity                  Relative Humidity at start/finish line, %
 ReplayFrameNum                    Integer replay frame number (60 per second),
 ReplayFrameNumEnd                 Integer replay frame number from end of tape,
 ReplayPlaySlowMotion              0=not slow motion  1=replay is in slow motion,
@@ -297,7 +304,8 @@ VidCapEnabled                     True if video capture system is enabled,
 Voltage                           Engine voltage, V
 WaterLevel                        Engine coolant level, l
 WaterTemp                         Engine coolant temp, C
-WeatherType                       Weather type (0=constant  1=dynamic),
+WeatherType                       Weather dynamics type, irsdk_WeatherDynamics
+WeatherVersion                    Weather version, irsdk_WeatherVersion
 WindDir                           Wind direction at start/finish line, rad
 WindVel                           Wind velocity at start/finish line, m/s
 Yaw                               Yaw orientation, rad
