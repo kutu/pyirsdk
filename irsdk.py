@@ -15,7 +15,7 @@ try:
 except ImportError:
     from yaml import SafeLoader as YamlSafeLoader
 
-VERSION = '1.3.4'
+VERSION = '1.3.5'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -257,17 +257,15 @@ class VideoCaptureMode:
     show_video_timer      = 4 # show video timer in upper left corner of display
     hide_video_timer      = 5 # hide video timer
 
-class WeatherDynamics:
-    specified_fixed_sky = 0 # specified  weather / fixed sky
-    generated_sky_moves = 1 # generated weather / dynamic sky
-    generated_fixed_sky = 2 # generated weather / fixed sky
-    specified_sky_moves = 3 # constant  weather / dynamic sky
-
-class WeatherVersion:
-    classic         = 0 # default init in replays prior to W2 being rolled out (no rain)
-    forecast_based  = 1 # usual way to handle realistic weather in W2
-    static_test_day = 2 # W2 version of "WEATHER_DYNAMICS_GENERATED_FIXEDSKY" that adds possibility of track water
-    timeline_based  = 3 # a timeline of desired specific events in W2
+class TrackWetness:
+    unknown          = 0
+    dry              = 1
+    mostly_dry       = 2
+    very_lightly_wet = 3
+    lightly_wet      = 4
+    moderately_wet   = 5
+    very_wet         = 6
+    extremely_wet    = 7
 
 
 class IRSDKStruct:

@@ -291,6 +291,7 @@ TireSetsAvailable                 How many tire sets are remaining  255 is unlim
 TireSetsUsed                      How many tire sets used so far,
 TrackTemp                         Deprecated  set to TrackTempCrew, C
 TrackTempCrew                     Temperature of track measured by crew around track, C
+TrackWetness                      How wet is the average track surface, irsdk_TrackWetness
 VelocityX                         X velocity, m/s
 VelocityX_ST                      X velocity, m/s at 360 Hz
 VelocityY                         Y velocity, m/s
@@ -304,8 +305,7 @@ VidCapEnabled                     True if video capture system is enabled,
 Voltage                           Engine voltage, V
 WaterLevel                        Engine coolant level, l
 WaterTemp                         Engine coolant temp, C
-WeatherType                       Weather dynamics type, irsdk_WeatherDynamics
-WeatherVersion                    Weather version, irsdk_WeatherVersion
+WeatherDeclaredWet                The steward says rain tires can be used,
 WindDir                           Wind direction at start/finish line, rad
 WindVel                           Wind velocity at start/finish line, m/s
 Yaw                               Yaw orientation, rad
