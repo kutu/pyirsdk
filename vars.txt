@@ -49,6 +49,8 @@ DCDriversSoFar                    Number of team drivers who have run a stint,
 DCLapStatus                       Status of driver change lap requirements,
 dcPitSpeedLimiterToggle           In car traction control active,
 dcStarter                         In car trigger car starter,
+dcToggleWindshieldWipers          In car turn wipers on or off,
+dcTriggerWindshieldWipers         In car momentarily turn on wipers,
 DisplayUnits                      Default units for the user interface 0 = english 1 = metric,
 dpFastRepair                      Pitstop fast repair set,
 dpFuelAddKg                       Pitstop fuel add amount, kg
