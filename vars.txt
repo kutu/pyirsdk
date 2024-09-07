@@ -8,6 +8,8 @@ CamCameraNumber                   Active camera number,
 CamCameraState                    State of camera system, irsdk_CameraState
 CamCarIdx                         Active camera's focus car index,
 CamGroupNumber                    Active camera group number,
+CarDistAhead                      Distance to first car in front of player in meters, m
+CarDistBehind                     Distance to first car behind player in meters, m
 CarIdxBestLapNum                  Cars best lap number,
 CarIdxBestLapTime                 Cars best lap time, s
 CarIdxClass                       Cars class id by car index,
