@@ -45,8 +45,8 @@ ChanPartnerQuality                Partner communications quality, %
 ChanQuality                       Communications quality, %
 Clutch                            0=disengaged to 1=fully engaged, %
 ClutchRaw                         Raw clutch input 0=disengaged to 1=fully engaged, %
-CpuUsageBG                        Percent of available tim bg thread took with a 1 sec avg, %
-CpuUsageFG                        Percent of available tim fg thread took with a 1 sec avg, %
+CpuUsageBG                        Percent of available time bg thread took with a 1 sec avg, %
+CpuUsageFG                        Percent of available time fg thread took with a 1 sec avg, %
 DCDriversSoFar                    Number of team drivers who have run a stint,
 DCLapStatus                       Status of driver change lap requirements,
 dcPitSpeedLimiterToggle           In car traction control active,
@@ -83,7 +83,7 @@ FuelLevelPct                      Percent fuel remaining, %
 FuelPress                         Engine fuel pressure, bar
 FuelUsePerHour                    Engine fuel used instantaneous, kg/h
 Gear                              -1=reverse  0=neutral  1..n=current gear,
-GpuUsage                          Percent of available tim gpu took with a 1 sec avg, %
+GpuUsage                          Percent of available time gpu took with a 1 sec avg, %
 HandbrakeRaw                      Raw handbrake input 0=handbrake released to 1=max force, %
 IsDiskLoggingActive               0=disk based telemetry file not being written  1=being written,
 IsDiskLoggingEnabled              0=disk based telemetry turned off  1=turned on,
