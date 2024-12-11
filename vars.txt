@@ -164,6 +164,8 @@ OilPress                          Engine oil pressure, bar
 OilTemp                           Engine oil temperature, C
 OkToReloadTextures                True if it is ok to reload car textures at this time,
 OnPitRoad                         Is the player car on pit road between the cones,
+P2P_Count                         Push2Pass count of usage (or remaining in Race) on your car,
+P2P_Status                        Push2Pass active or not on your car,
 PaceMode                          Are we pacing or not, irsdk_PaceMode
 Pitch                             Pitch orientation, rad
 PitchRate                         Pitch rate, rad/s
