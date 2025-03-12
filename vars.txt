@@ -273,6 +273,7 @@ Skies                             Skies (0=clear/1=p cloudy/2=m cloudy/3=overcas
 SolarAltitude                     Sun angle above horizon in radians, rad
 SolarAzimuth                      Sun angle clockwise from north in radians, rad
 Speed                             GPS vehicle speed, m/s
+SteeringFFBEnabled                Force feedback is enabled,
 SteeringWheelAngle                Steering wheel angle, rad
 SteeringWheelAngleMax             Steering wheel max angle, rad
 SteeringWheelLimiter              Force feedback limiter strength limits impacts and oscillation, %
