@@ -49,7 +49,7 @@ CpuUsageBG                        Percent of available tim bg thread took with a
 CpuUsageFG                        Percent of available tim fg thread took with a 1 sec avg, %
 DCDriversSoFar                    Number of team drivers who have run a stint,
 DCLapStatus                       Status of driver change lap requirements,
-dcPitSpeedLimiterToggle           In car traction control active,
+dcPitSpeedLimiterToggle           Track if pit speed limiter system is enabled,
 dcStarter                         In car trigger car starter,
 dcToggleWindshieldWipers          In car turn wipers on or off,
 dcTriggerWindshieldWipers         In car momentarily turn on wipers,
