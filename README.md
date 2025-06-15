@@ -24,3 +24,5 @@ print(ir['Speed'])
 ```
 
 Go to [tutorials](tutorials) for more.
+
+Additional documentation available [here](https://sajax.github.io/irsdkdocs/yaml/)
