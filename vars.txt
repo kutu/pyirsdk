@@ -125,6 +125,7 @@ LeftTireSetsAvailable             How many left tire sets are remaining  255 is 
 LeftTireSetsUsed                  How many left tire sets used so far,
 LFbrakeLinePress                  LF brake line pressure, bar
 LFcoldPressure                    LF tire cold pressure  as set in the garage, kPa
+LFodometer                        LF distance tire traveled since being placed on car, m
 LFshockDefl                       LF shock deflection, m
 LFshockDefl_ST                    LF shock deflection at 360 Hz, m
 LFshockVel                        LF shock velocity, m/s
@@ -142,6 +143,7 @@ LongAccel                         Longitudinal acceleration (including gravity),
 LongAccel_ST                      Longitudinal acceleration (including gravity) at 360 Hz, m/s^2
 LRbrakeLinePress                  LR brake line pressure, bar
 LRcoldPressure                    LR tire cold pressure  as set in the garage, kPa
+LRodometer                        LR distance tire traveled since being placed on car, m
 LRshockDefl                       LR shock deflection, m
 LRshockDefl_ST                    LR shock deflection at 360 Hz, m
 LRshockVel                        LR shock velocity, m/s
@@ -199,6 +201,7 @@ PlayerCarTeamIncidentCount        Players team incident count for this session,
 PlayerCarTowTime                  Players car is being towed if time is greater than zero, s
 PlayerCarWeightPenalty            Players weight penalty, kg
 PlayerFastRepairsUsed             Players car number of fast repairs used,
+PlayerIncidents                   Log incidents that the player recieved, irsdk_IncidentFlags
 PlayerTireCompound                Players car current tire compound,
 PlayerTrackSurface                Players car track surface type, irsdk_TrkLoc
 PlayerTrackSurfaceMaterial        Players car track surface material type, irsdk_TrkSurf
@@ -220,6 +223,7 @@ ReplaySessionNum                  Replay session number,
 ReplaySessionTime                 Seconds since replay session start, s
 RFbrakeLinePress                  RF brake line pressure, bar
 RFcoldPressure                    RF tire cold pressure  as set in the garage, kPa
+RFodometer                        RF distance tire traveled since being placed on car, m
 RFshockDefl                       RF shock deflection, m
 RFshockDefl_ST                    RF shock deflection at 360 Hz, m
 RFshockVel                        RF shock velocity, m/s
@@ -240,6 +244,7 @@ RollRate_ST                       Roll rate at 360 Hz, rad/s
 RPM                               Engine rpm, revs/min
 RRbrakeLinePress                  RR brake line pressure, bar
 RRcoldPressure                    RR tire cold pressure  as set in the garage, kPa
+RRodometer                        RR distance tire traveled since being placed on car, m
 RRshockDefl                       RR shock deflection, m
 RRshockDefl_ST                    RR shock deflection at 360 Hz, m
 RRshockVel                        RR shock velocity, m/s
@@ -266,6 +271,7 @@ SessionTimeOfDay                  Time of day in seconds, s
 SessionTimeRemain                 Seconds left till session ends, s
 SessionTimeTotal                  Total number of seconds in session, s
 SessionUniqueID                   Session ID,
+Shifter                           Log inputs from the players shifter control,
 ShiftGrindRPM                     RPM of shifter grinding noise, RPM
 ShiftIndicatorPct                 DEPRECATED use DriverCarSLBlinkRPM instead, %
 ShiftPowerPct                     Friction torque applied to gears when shifting or grinding, %
