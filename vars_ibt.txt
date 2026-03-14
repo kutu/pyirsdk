@@ -1,0 +1,286 @@
+AirDensity                               kg/m^3               irsdk_float          Density of air at start/finish line
+AirPressure                              Pa                   irsdk_float          Pressure of air at start/finish line
+AirTemp                                  C                    irsdk_float          Temperature of air at start/finish line
+Alt                                      m                    irsdk_float          Altitude in meters
+Brake                                    %                    irsdk_float          0=brake released to 1=max pedal force
+BrakeABSactive                                                irsdk_bool           true if abs is currently reducing brake force pressure
+BrakeABScutPct                           %                    irsdk_float          Percent of brake force reduction caused by ABS system
+BrakeRaw                                 %                    irsdk_float          Raw brake input 0=brake released to 1=max pedal force
+CarDistAhead                             m                    irsdk_float          Distance to first car in front of player in meters
+CarDistBehind                            m                    irsdk_float          Distance to first car behind player in meters
+CFSRrideHeight                           m                    irsdk_float          Center front splitter ride height
+ChanAvgLatency                           s                    irsdk_float          Communications average latency
+ChanClockSkew                            s                    irsdk_float          Communications server clock skew
+ChanLatency                              s                    irsdk_float          Communications latency
+ChanPartnerQuality                       %                    irsdk_float          Partner communications quality
+ChanQuality                              %                    irsdk_float          Communications quality
+Clutch                                   %                    irsdk_float          0=disengaged to 1=fully engaged
+ClutchRaw                                %                    irsdk_float          Raw clutch input 0=disengaged to 1=fully engaged
+CpuUsageBG                               %                    irsdk_float          Percent of available time bg thread took with a 1 sec avg
+CpuUsageFG                               %                    irsdk_float          Percent of available time fg thread took with a 1 sec avg
+dcBoostLevel                                                  irsdk_float          In car boost level adjustment
+dcBrakeBias                                                   irsdk_float          In car brake bias adjustment
+dcFuelMixture                                                 irsdk_float          In car fuel mixture adjustment
+dcHeadlightFlash                                              irsdk_bool           In car headlight flash control active
+dcPitSpeedLimiterToggle                                       irsdk_bool           Track if pit speed limiter system is enabled
+dcStarter                                                     irsdk_bool           In car trigger car starter
+dcToggleWindshieldWipers                                      irsdk_bool           In car turn wipers on or off
+dcTractionControl                                             irsdk_float          In car traction control adjustment
+dcTractionControl2                                            irsdk_float          In car traction control 2 adjustment
+dcTractionControlToggle                                       irsdk_bool           In car traction control active
+dcTriggerWindshieldWipers                                     irsdk_bool           In car momentarily turn on wipers
+dpFastRepair                                                  irsdk_float          Pitstop fast repair set
+dpFuelAddKg                              kg                   irsdk_float          Pitstop fuel add amount
+dpFuelAutoFillActive                                          irsdk_float          Pitstop auto fill fuel next stop flag
+dpFuelAutoFillEnabled                                         irsdk_float          Pitstop auto fill fuel system enabled
+dpFuelFill                                                    irsdk_float          Pitstop fuel fill flag
+dpLFTireChange                                                irsdk_float          Pitstop lf tire change request
+dpLFTireColdPress                        Pa                   irsdk_float          Pitstop lf tire cold pressure adjustment
+dpLRTireChange                                                irsdk_float          Pitstop lr tire change request
+dpLRTireColdPress                        Pa                   irsdk_float          Pitstop lr tire cold pressure adjustment
+dpRFTireChange                                                irsdk_float          Pitstop rf tire change request
+dpRFTireColdPress                        Pa                   irsdk_float          Pitstop rf cold tire pressure adjustment
+dpRRTireChange                                                irsdk_float          Pitstop rr tire change request
+dpRRTireColdPress                        Pa                   irsdk_float          Pitstop rr cold tire pressure adjustment
+dpWindshieldTearoff                                           irsdk_float          Pitstop windshield tearoff
+DriverMarker                                                  irsdk_bool           Driver activated flag
+Engine0_RPM                              revs/min             irsdk_float          Engine0Engine rpm
+EngineWarnings                           irsdk_EngineWarnings irsdk_bitField       Bitfield for warning lights
+EnterExitReset                                                irsdk_int            Indicate action the reset key will take 0 enter 1 exit 2 reset
+FastRepairAvailable                                           irsdk_int            How many fast repairs left  255 is unlimited
+FastRepairUsed                                                irsdk_int            How many fast repairs used so far
+FogLevel                                 %                    irsdk_float          Fog level at start/finish line
+FrameRate                                fps                  irsdk_float          Average frames per second
+FrontTireSetsAvailable                                        irsdk_int            How many front tire sets are remaining  255 is unlimited
+FrontTireSetsUsed                                             irsdk_int            How many front tire sets used so far
+FuelLevel                                l                    irsdk_float          Liters of fuel remaining
+FuelLevelPct                             %                    irsdk_float          Percent fuel remaining
+FuelPress                                bar                  irsdk_float          Engine fuel pressure
+FuelUsePerHour                           kg/h                 irsdk_float          Engine fuel used instantaneous
+Gear                                                          irsdk_int            -1=reverse  0=neutral  1..n=current gear
+GpuUsage                                 %                    irsdk_float          Percent of available time gpu took with a 1 sec avg
+HandbrakeRaw                             %                    irsdk_float          Raw handbrake input 0=handbrake released to 1=max force
+IsOnTrack                                                     irsdk_bool           1=Car on track physics running with player in car
+IsOnTrackCar                                                  irsdk_bool           1=Car on track physics running
+Lap                                                           irsdk_int            Laps started count
+LapBestLap                                                    irsdk_int            Players best lap number
+LapBestLapTime                           s                    irsdk_float          Players best lap time
+LapBestNLapLap                                                irsdk_int            Player last lap in best N average lap time
+LapBestNLapTime                          s                    irsdk_float          Player best N average lap time
+LapCompleted                                                  irsdk_int            Laps completed count
+LapCurrentLapTime                        s                    irsdk_float          Estimate of players current lap time as shown in F3 box
+LapDeltaToBestLap                        s                    irsdk_float          Delta time for best lap
+LapDeltaToBestLap_DD                     s/s                  irsdk_float          Rate of change of delta time for best lap
+LapDeltaToBestLap_OK                                          irsdk_bool           Delta time for best lap is valid
+LapDeltaToOptimalLap                     s                    irsdk_float          Delta time for optimal lap
+LapDeltaToOptimalLap_DD                  s/s                  irsdk_float          Rate of change of delta time for optimal lap
+LapDeltaToOptimalLap_OK                                       irsdk_bool           Delta time for optimal lap is valid
+LapDeltaToSessionBestLap                 s                    irsdk_float          Delta time for session best lap
+LapDeltaToSessionBestLap_DD              s/s                  irsdk_float          Rate of change of delta time for session best lap
+LapDeltaToSessionBestLap_OK                                   irsdk_bool           Delta time for session best lap is valid
+LapDeltaToSessionLastlLap                s                    irsdk_float          Delta time for session last lap
+LapDeltaToSessionLastlLap_DD             s/s                  irsdk_float          Rate of change of delta time for session last lap
+LapDeltaToSessionLastlLap_OK                                  irsdk_bool           Delta time for session last lap is valid
+LapDeltaToSessionOptimalLap              s                    irsdk_float          Delta time for session optimal lap
+LapDeltaToSessionOptimalLap_DD           s/s                  irsdk_float          Rate of change of delta time for session optimal lap
+LapDeltaToSessionOptimalLap_OK                                irsdk_bool           Delta time for session optimal lap is valid
+LapDist                                  m                    irsdk_float          Meters traveled from S/F this lap
+LapDistPct                               %                    irsdk_float          Percentage distance around lap
+LapLasNLapSeq                                                 irsdk_int            Player num consecutive clean laps completed for N average
+LapLastLapTime                           s                    irsdk_float          Players last lap time
+LapLastNLapTime                          s                    irsdk_float          Player last N average lap time
+Lat                                      deg                  irsdk_double         Latitude in decimal degrees
+LatAccel                                 m/s^2                irsdk_float          Lateral acceleration (including gravity)
+LeftTireSetsAvailable                                         irsdk_int            How many left tire sets are remaining  255 is unlimited
+LeftTireSetsUsed                                              irsdk_int            How many left tire sets used so far
+LFbrakeLinePress                         bar                  irsdk_float          LF brake line pressure
+LFcoldPressure                           kPa                  irsdk_float          LF tire cold pressure  as set in the garage
+LFodometer                               m                    irsdk_float          LF distance tire traveled since being placed on car
+LFpressure                               kPa                  irsdk_float          LF tire pressure
+LFrideHeight                             m                    irsdk_float          LF ride height
+LFshockDefl                              m                    irsdk_float          LF shock deflection
+LFshockVel                               m/s                  irsdk_float          LF shock velocity
+LFspeed                                  m/s                  irsdk_float          LF wheel speed
+LFtempCL                                 C                    irsdk_float          LF tire left carcass temperature
+LFtempCM                                 C                    irsdk_float          LF tire middle carcass temperature
+LFtempCR                                 C                    irsdk_float          LF tire right carcass temperature
+LFtempL                                  C                    irsdk_float          LF tire left surface temperature
+LFtempM                                  C                    irsdk_float          LF tire middle surface temperature
+LFtempR                                  C                    irsdk_float          LF tire right surface temperature
+LFTiresAvailable                                              irsdk_int            How many left front tires are remaining  255 is unlimited
+LFTiresUsed                                                   irsdk_int            How many left front tires used so far
+LFwearL                                  %                    irsdk_float          LF tire left percent tread remaining
+LFwearM                                  %                    irsdk_float          LF tire middle percent tread remaining
+LFwearR                                  %                    irsdk_float          LF tire right percent tread remaining
+Lon                                      deg                  irsdk_double         Longitude in decimal degrees
+LongAccel                                m/s^2                irsdk_float          Longitudinal acceleration (including gravity)
+LRbrakeLinePress                         bar                  irsdk_float          LR brake line pressure
+LRcoldPressure                           kPa                  irsdk_float          LR tire cold pressure  as set in the garage
+LRodometer                               m                    irsdk_float          LR distance tire traveled since being placed on car
+LRpressure                               kPa                  irsdk_float          LR tire pressure
+LRrideHeight                             m                    irsdk_float          LR ride height
+LRshockDefl                              m                    irsdk_float          LR shock deflection
+LRshockVel                               m/s                  irsdk_float          LR shock velocity
+LRspeed                                  m/s                  irsdk_float          LR wheel speed
+LRtempCL                                 C                    irsdk_float          LR tire left carcass temperature
+LRtempCM                                 C                    irsdk_float          LR tire middle carcass temperature
+LRtempCR                                 C                    irsdk_float          LR tire right carcass temperature
+LRtempL                                  C                    irsdk_float          LR tire left surface temperature
+LRtempM                                  C                    irsdk_float          LR tire middle surface temperature
+LRtempR                                  C                    irsdk_float          LR tire right surface temperature
+LRTiresAvailable                                              irsdk_int            How many left rear tires are remaining  255 is unlimited
+LRTiresUsed                                                   irsdk_int            How many left rear tires used so far
+LRwearL                                  %                    irsdk_float          LR tire left percent tread remaining
+LRwearM                                  %                    irsdk_float          LR tire middle percent tread remaining
+LRwearR                                  %                    irsdk_float          LR tire right percent tread remaining
+ManifoldPress                            bar                  irsdk_float          Engine manifold pressure
+ManualBoost                                                   irsdk_bool           Hybrid manual boost state
+ManualNoBoost                                                 irsdk_bool           Hybrid manual no boost state
+MemPageFaultSec                                               irsdk_float          Memory page faults per second
+MemSoftPageFaultSec                                           irsdk_float          Memory soft page faults per second
+OilLevel                                 l                    irsdk_float          Engine oil level
+OilPress                                 bar                  irsdk_float          Engine oil pressure
+OilTemp                                  C                    irsdk_float          Engine oil temperature
+OnPitRoad                                                     irsdk_bool           Is the player car on pit road between the cones
+P2P_Count                                                     irsdk_int            Push2Pass count of usage (or remaining in Race) on your car
+P2P_Status                                                    irsdk_bool           Push2Pass active or not on your car
+PaceMode                                 irsdk_PaceMode       irsdk_int            Are we pacing or not
+Pitch                                    rad                  irsdk_float          Pitch orientation
+PitchRate                                rad/s                irsdk_float          Pitch rate
+PitOptRepairLeft                         s                    irsdk_float          Time left for optional repairs if repairs are active
+PitRepairLeft                            s                    irsdk_float          Time left for mandatory pit repairs if repairs are active
+PitsOpen                                                      irsdk_bool           True if pit stop is allowed for the current player
+PitstopActive                                                 irsdk_bool           Is the player getting pit stop service
+PitSvFlags                               irsdk_PitSvFlags     irsdk_bitField       Bitfield of pit service checkboxes
+PitSvFuel                                l or kWh             irsdk_float          Pit service fuel add amount
+PitSvLFP                                 kPa                  irsdk_float          Pit service left front tire pressure
+PitSvLRP                                 kPa                  irsdk_float          Pit service left rear tire pressure
+PitSvRFP                                 kPa                  irsdk_float          Pit service right front tire pressure
+PitSvRRP                                 kPa                  irsdk_float          Pit service right rear tire pressure
+PitSvTireCompound                                             irsdk_int            Pit service pending tire compound
+PlayerCarClass                                                irsdk_int            Player car class id
+PlayerCarClassPosition                                        irsdk_int            Players class position in race
+PlayerCarDriverIncidentCount                                  irsdk_int            Teams current drivers incident count for this session
+PlayerCarDryTireSetLimit                                      irsdk_int            Players dry tire set limit
+PlayerCarIdx                                                  irsdk_int            Players carIdx
+PlayerCarInPitStall                                           irsdk_bool           Players car is properly in their pitstall
+PlayerCarMyIncidentCount                                      irsdk_int            Players own incident count for this session
+PlayerCarPitSvStatus                     irsdk_PitSvStatus    irsdk_int            Players car pit service status bits
+PlayerCarPosition                                             irsdk_int            Players position in race
+PlayerCarPowerAdjust                     %                    irsdk_float          Players power adjust
+PlayerCarTeamIncidentCount                                    irsdk_int            Players team incident count for this session
+PlayerCarTowTime                         s                    irsdk_float          Players car is being towed if time is greater than zero
+PlayerCarWeightPenalty                   kg                   irsdk_float          Players weight penalty
+PlayerFastRepairsUsed                                         irsdk_int            Players car number of fast repairs used
+PlayerIncidents                          irsdk_IncidentFlags  irsdk_int            Log incidents that the player recieved
+PlayerTireCompound                                            irsdk_int            Players car current tire compound
+PlayerTrackSurface                       irsdk_TrkLoc         irsdk_int            Players car track surface type
+PlayerTrackSurfaceMaterial               irsdk_TrkSurf        irsdk_int            Players car track surface material type
+Precipitation                            %                    irsdk_float          Precipitation at start/finish line
+PushToPass                                                    irsdk_bool           Push to pass button state
+PushToTalk                                                    irsdk_bool           Push to talk button state
+RearTireSetsAvailable                                         irsdk_int            How many rear tire sets are remaining  255 is unlimited
+RearTireSetsUsed                                              irsdk_int            How many rear tire sets used so far
+RelativeHumidity                         %                    irsdk_float          Relative Humidity at start/finish line
+RFbrakeLinePress                         bar                  irsdk_float          RF brake line pressure
+RFcoldPressure                           kPa                  irsdk_float          RF tire cold pressure  as set in the garage
+RFodometer                               m                    irsdk_float          RF distance tire traveled since being placed on car
+RFpressure                               kPa                  irsdk_float          RF tire pressure
+RFrideHeight                             m                    irsdk_float          RF ride height
+RFshockDefl                              m                    irsdk_float          RF shock deflection
+RFshockVel                               m/s                  irsdk_float          RF shock velocity
+RFspeed                                  m/s                  irsdk_float          RF wheel speed
+RFtempCL                                 C                    irsdk_float          RF tire left carcass temperature
+RFtempCM                                 C                    irsdk_float          RF tire middle carcass temperature
+RFtempCR                                 C                    irsdk_float          RF tire right carcass temperature
+RFtempL                                  C                    irsdk_float          RF tire left surface temperature
+RFtempM                                  C                    irsdk_float          RF tire middle surface temperature
+RFtempR                                  C                    irsdk_float          RF tire right surface temperature
+RFTiresAvailable                                              irsdk_int            How many right front tires are remaining  255 is unlimited
+RFTiresUsed                                                   irsdk_int            How many right front tires used so far
+RFwearL                                  %                    irsdk_float          RF tire left percent tread remaining
+RFwearM                                  %                    irsdk_float          RF tire middle percent tread remaining
+RFwearR                                  %                    irsdk_float          RF tire right percent tread remaining
+RightTireSetsAvailable                                        irsdk_int            How many right tire sets are remaining  255 is unlimited
+RightTireSetsUsed                                             irsdk_int            How many right tire sets used so far
+Roll                                     rad                  irsdk_float          Roll orientation
+RollRate                                 rad/s                irsdk_float          Roll rate
+RPM                                      revs/min             irsdk_float          Engine rpm
+RRbrakeLinePress                         bar                  irsdk_float          RR brake line pressure
+RRcoldPressure                           kPa                  irsdk_float          RR tire cold pressure  as set in the garage
+RRodometer                               m                    irsdk_float          RR distance tire traveled since being placed on car
+RRpressure                               kPa                  irsdk_float          RR tire pressure
+RRrideHeight                             m                    irsdk_float          RR ride height
+RRshockDefl                              m                    irsdk_float          RR shock deflection
+RRshockVel                               m/s                  irsdk_float          RR shock velocity
+RRspeed                                  m/s                  irsdk_float          RR wheel speed
+RRtempCL                                 C                    irsdk_float          RR tire left carcass temperature
+RRtempCM                                 C                    irsdk_float          RR tire middle carcass temperature
+RRtempCR                                 C                    irsdk_float          RR tire right carcass temperature
+RRtempL                                  C                    irsdk_float          RR tire left surface temperature
+RRtempM                                  C                    irsdk_float          RR tire middle surface temperature
+RRtempR                                  C                    irsdk_float          RR tire right surface temperature
+RRTiresAvailable                                              irsdk_int            How many right rear tires are remaining  255 is unlimited
+RRTiresUsed                                                   irsdk_int            How many right rear tires used so far
+RRwearL                                  %                    irsdk_float          RR tire left percent tread remaining
+RRwearM                                  %                    irsdk_float          RR tire middle percent tread remaining
+RRwearR                                  %                    irsdk_float          RR tire right percent tread remaining
+SessionFlags                             irsdk_Flags          irsdk_bitField       Session flags
+SessionJokerLapsRemain                                        irsdk_int            Joker laps remaining to be taken
+SessionLapsRemain                                             irsdk_int            Old laps left till session ends use SessionLapsRemainEx
+SessionLapsRemainEx                                           irsdk_int            New improved laps left till session ends
+SessionLapsTotal                                              irsdk_int            Total number of laps in session
+SessionNum                                                    irsdk_int            Session number
+SessionOnJokerLap                                             irsdk_bool           Player is currently completing a joker lap
+SessionState                             irsdk_SessionState   irsdk_int            Session state
+SessionTick                                                   irsdk_int            Current update number
+SessionTime                              s                    irsdk_double         Seconds since session start
+SessionTimeOfDay                         s                    irsdk_float          Time of day in seconds
+SessionTimeRemain                        s                    irsdk_double         Seconds left till session ends
+SessionTimeTotal                         s                    irsdk_double         Total number of seconds in session
+SessionUniqueID                                               irsdk_int            Session ID
+Shifter                                                       irsdk_int            Log inputs from the players shifter control
+ShiftGrindRPM                            RPM                  irsdk_float          RPM of shifter grinding noise
+ShiftIndicatorPct                        %                    irsdk_float          DEPRECATED use DriverCarSLBlinkRPM instead
+ShiftPowerPct                            %                    irsdk_float          Friction torque applied to gears when shifting or grinding
+Skies                                                         irsdk_int            Skies (0=clear/1=p cloudy/2=m cloudy/3=overcast)
+SolarAltitude                            rad                  irsdk_float          Sun angle above horizon in radians
+SolarAzimuth                             rad                  irsdk_float          Sun angle clockwise from north in radians
+Speed                                    m/s                  irsdk_float          GPS vehicle speed
+SteeringWheelAngle                       rad                  irsdk_float          Steering wheel angle
+SteeringWheelAngleMax                    rad                  irsdk_float          Steering wheel max angle
+SteeringWheelLimiter                     %                    irsdk_float          Force feedback limiter strength limits impacts and oscillation
+SteeringWheelMaxForceNm                  N*m                  irsdk_float          Value of strength or max force slider in Nm for FFB
+SteeringWheelPctDamper                   %                    irsdk_float          Force feedback % max damping
+SteeringWheelPctIntensity                %                    irsdk_float          Force feedback % max intensity
+SteeringWheelPctSmoothing                %                    irsdk_float          Force feedback % max smoothing
+SteeringWheelPctTorque                   %                    irsdk_float          Force feedback % max torque on steering shaft unsigned
+SteeringWheelPctTorqueSign               %                    irsdk_float          Force feedback % max torque on steering shaft signed
+SteeringWheelPctTorqueSignStops          %                    irsdk_float          Force feedback % max torque on steering shaft signed stops
+SteeringWheelTorque                      N*m                  irsdk_float          Output torque on steering shaft
+SteeringWheelTorque_ST                   N*m                  irsdk_float          Output torque on steering shaft at 360 Hz
+SteeringWheelUseLinear                                        irsdk_bool           True if steering wheel force is using linear mode
+Throttle                                 %                    irsdk_float          0=off throttle to 1=full throttle
+ThrottleRaw                              %                    irsdk_float          Raw throttle input 0=off throttle to 1=full throttle
+TireLF_RumblePitch                       Hz                   irsdk_float          Players LF Tire Sound rumblestrip pitch
+TireLR_RumblePitch                       Hz                   irsdk_float          Players LR Tire Sound rumblestrip pitch
+TireRF_RumblePitch                       Hz                   irsdk_float          Players RF Tire Sound rumblestrip pitch
+TireRR_RumblePitch                       Hz                   irsdk_float          Players RR Tire Sound rumblestrip pitch
+TireSetsAvailable                                             irsdk_int            How many tire sets are remaining  255 is unlimited
+TireSetsUsed                                                  irsdk_int            How many tire sets used so far
+TrackTemp                                C                    irsdk_float          Deprecated  set to TrackTempCrew
+TrackTempCrew                            C                    irsdk_float          Temperature of track measured by crew around track
+TrackWetness                             irsdk_TrackWetness   irsdk_int            How wet is the average track surface
+VelocityX                                m/s                  irsdk_float          X velocity
+VelocityY                                m/s                  irsdk_float          Y velocity
+VelocityZ                                m/s                  irsdk_float          Z velocity
+VertAccel                                m/s^2                irsdk_float          Vertical acceleration (including gravity)
+Voltage                                  V                    irsdk_float          Engine voltage
+WaterLevel                               l                    irsdk_float          Engine coolant level
+WaterTemp                                C                    irsdk_float          Engine coolant temp
+WeatherDeclaredWet                                            irsdk_bool           The steward says rain tires can be used
+WindDir                                  rad                  irsdk_float          Wind direction at start/finish line
+WindVel                                  m/s                  irsdk_float          Wind velocity at start/finish line
+Yaw                                      rad                  irsdk_float          Yaw orientation
+YawNorth                                 rad                  irsdk_float          Yaw orientation relative to north
+YawRate                                  rad/s                irsdk_float          Yaw rate
