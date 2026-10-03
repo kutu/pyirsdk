@@ -15,7 +15,7 @@ try:
 except ImportError:
     from yaml import SafeLoader as YamlSafeLoader
 
-VERSION = '1.3.6'
+VERSION = '1.3.7'
 
 SIM_STATUS_URL = 'http://127.0.0.1:32034/get_sim_status?object=simStatus'
 
@@ -664,7 +664,10 @@ class IRSDK:
         is_utf8 = self.is_session_info_utf8
 
         # parsing
-        yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', data_binary.translate(None if is_utf8 else YAML_TRANSLATER).rstrip(b'\x00').decode('utf-8' if is_utf8 else 'cp1252'))
+        try:
+            yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', data_binary.translate(None if is_utf8 else YAML_TRANSLATER).rstrip(b'\x00').decode('utf-8' if is_utf8 else 'cp1252'))
+        except UnicodeDecodeError:
+            yaml_src = re.sub(YamlReader.NON_PRINTABLE, '', data_binary.translate(YAML_TRANSLATER).rstrip(b'\x00').decode('cp1252'))
 
         # replacing `key: value` -> `key: "value"`
         # double quotes and backslashes in value are escaped with backslash
